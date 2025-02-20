@@ -10,7 +10,6 @@ make {
       Cpp.setIncDir( $ds );
       Cpp.setLibDir( $ds );
       Cpp.setLib( $ls );
-      Cpp.setShow(true);
       Cpp.setDebug(true);
    }
 
