@@ -5,3 +5,4 @@ libvytoolsp.so
 /*.obj
 /*.dll
 /*.o
+/*.dep

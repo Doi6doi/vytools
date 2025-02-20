@@ -118,6 +118,9 @@ public:
    Uint len() const;
 public:
    static Uint lenOf( const Char * );   
+   static CString format( CString fmt, ... );   
+   static bool passArg( CString & fmt, va_list, CString & dest );
+   static CString argFmt( Char, va_list ); 
 };
 
 class WString: public Cow  {
@@ -146,6 +149,7 @@ public:
    CString mb() const;
 public:
    static Uint lenOf( const Wide * );   
+   static WString format( WString fmt, ... );   
    static bool passArg( WString & fmt, va_list, WString & dest );
    static WString argFmt( Wide, va_list ); 
 };

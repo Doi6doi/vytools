@@ -2,7 +2,7 @@ make {
 
    import { C; Cpp; Git; }
 
-   function init() {
+   init {
       $name := "vytools";
       $url := "https://github.com/Doi6doi/vytools.git";
       $cdep := "c.dep";
@@ -15,13 +15,16 @@ make {
       $hs := ["vytools_arch.h","vytools.h","vytools_impl.h"];
       $hps := ["vytools.hpp","vytools_tpl.hpp"];
       $cps := ["vytoolsp.cpp","vyt_str.cpp"];
+      $os := changeExt( $cs+$cps, Cpp.objExt() );
+      $lib := Cpp.libFile( $name );
+      C.setLibMode( true );
+      Cpp.setLibMode( true );
    }
 
    target {
 
       /// download and/or build 
       default {
-         init();
          if ( inDir() )
             build();
          else {
@@ -37,17 +40,14 @@ make {
 
       // build project
       build {
-         init();
          genDep();
          genObjs();
          genLib();
-         echo("BUILD");
       }
 
       // clear generated files
       clean {
-        init();
-        purge( ["*"+C.objExt(), "*"+Cpp.objExt(), C.libFile("*")] );
+        purge( ["*"+C.objExt(), "*"+Cpp.objExt(), C.libFile("*"), "*.dep"] );
       }
 
       // run tests
@@ -85,6 +85,12 @@ make {
             if ( older( o, ds[o] ))
                Cpp.compile( o, c );
          }
+      }
+
+      /// generate library
+      genLib() {
+         if ( older( $lib, $os ))
+            Cpp.link( $lib, $os );
       }
 
    }

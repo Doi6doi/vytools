@@ -1,13 +1,13 @@
-#include <vytools.hpp>
+
+#include "vytools.hpp"
 
 using namespace vyt;
- 
+
 int main() {
-   Ptr p = NULL;
-   p = Tools::realloc( p, 20 );
-   p = Tools::realloc( p, 0 );
-   WString ws = "Hello";
-   CString cs = "world";
-   Tools::debug(ws+" "+cs );
+   WString a = "Hello";
+   CString b = "world";
+   a = WString::format( "%s, %s!", a, WString(b) );
+   CString c = a.mb();
+   Tools::stdOut().op( (Char *)c, c.len() );
    return 0;
 }
