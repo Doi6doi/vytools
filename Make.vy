@@ -4,7 +4,7 @@ make {
 
    target {
       // download project
-      download() {
+      download {
          Git.clone( "https://github.com/Doi6doi/vytools.git" );
       }
    }
