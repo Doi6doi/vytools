@@ -9,8 +9,7 @@ make {
 
 
    target {
-
-      // download and/or build 
+      /// download and/or build 
       default {
          init();
          if ( inDir() )
@@ -21,7 +20,7 @@ make {
          }
       }
 
-      // download the project
+      /// download the project
       download {
          Git.clone( $url );
       }
@@ -33,11 +32,10 @@ make {
    }
 
    function {
+      /// are we in project directory
       inDir() {
          return exists("vytools.h");
       }
    }
-
-
 
 }
