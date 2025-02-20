@@ -168,3 +168,13 @@ CString WString::mb() const {
    if ( ! ret ) throw Exc("Could not convert: '%s'", *this );
    return CString( ret, n );
 }
+
+WString WString::format( WString fmt, ... ) {
+   WString ret;
+   va_list args;
+   va_start( args, fmt );
+   while ( passArg( fmt, args, ret )) ;
+   va_end( args );
+   return ret;
+}
+

@@ -19,6 +19,8 @@ make {
       $lib := Cpp.libFile( $name );
       C.setLibMode( true );
       Cpp.setLibMode( true );
+      C.setDebug(true);
+      Cpp.setDebug(true);
    }
 
    target {

@@ -1,7 +1,7 @@
 make {
 
    import { Cpp; }
-
+ 
    init {
       $cs := ["basicp.cpp"];
       $ds := [".."];
@@ -9,8 +9,9 @@ make {
       $es := changeExt( $cs, exeExt() );
       Cpp.setIncDir( $ds );
       Cpp.setLibDir( $ds );
-      Cpp.setLib( $ds );
+      Cpp.setLib( $ls );
       Cpp.setShow(true);
+      Cpp.setDebug(true);
    }
 
    target {
@@ -30,11 +31,17 @@ make {
          }
       }
          
+      /// run test programs
+      run {
+         setPath( $ds+["."] );
+         foreach ( e | $es )
+            exec( e );
+      }
+         
       /// clean generated files
       clean {
         purge( $es );
       }
    }
-
 
 }

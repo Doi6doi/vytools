@@ -129,6 +129,18 @@ Stream Tools::stdErr() {
    return *ret;
 }
 
+Stream Tools::stdIn() {
+   static Stream * ret = NULL;
+   if ( ! ret ) ret = new InFile( stdin, true );
+   return *ret;
+}
+
+Stream Tools::stdOut() {
+   static Stream * ret = NULL;
+   if ( ! ret ) ret = new InFile( stdout, true );
+   return *ret;
+}
+
 void Tools::debug( WString fmt, ... ) {
    va_list args;
    va_start( args, fmt );
