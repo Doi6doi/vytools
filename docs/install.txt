@@ -1,5 +1,4 @@
 /**
-
 ## Compilation
 
 Run `vymake -f https://raw.githubusercontent.com/Doi6doi/vytools/main/Make.vy`
