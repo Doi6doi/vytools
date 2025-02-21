@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+<body>
+
+
+
+
+## Compilation
+
+Run `vymake -f https://raw.githubusercontent.com/Doi6doi/vytools/main/Make.vy`
+
+It will clone the repository and build the library
+
+Tools needed to build: * [vymake](https://github.com/Doi6doi/vy/releases), * a vymake compatible C compiler (gcc, clang, msvc, ...) * a vymake compatible C++ compiler (gcc, clang, msvc, ...) * a vymake compatible git client (for cloning)
+
+## Installation
+
+Copy the resulting libraries (*.so* or *.dll*) to your default library location.
+
+Copy `vytools.h` and `vytools.hpp` headers to your default include file location
+
+## Debian package
+
+On a Debian-compatible linux, you can also create a debian package (*.deb*)
+
+Run `vymake deb` in project directory
+
+Tools needed: * [dpkg-deb](https://man7.org/linux/man-pages/man1/dpkg-deb.1.html)
+
+
+
+
+</body></html>
