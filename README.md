@@ -1,11 +1,19 @@
-# vytools
+# VyTools
 
-Utility functions and definitions
+**VyTools** is a [C](https://en.wikipedia.org/wiki/C_(programming_language)
+and [C++](https://en.wikipedia.org/wiki/C%2B%2B) library which makes often
+used tasks easier.
 
-Read the [Documentation](https://raw.githubusercontent.com/Doi6doi/vytools/main/doc/index.html) for usage details.
+The [C library](c) contains some fixed-size basic types, often used structures,
+basic string and stream handling and a resizable buffer.
 
-You can go directly to [Downloads](https://github.com/Doi6doi/vulcmp/releases).
+The [C++ library](cpp) defines the namespace *vyt*. It contains the same
+basic types with *C++*-style naming, some utility functions, basic types
+for non-create, non-assign, referent-counted or copy-on-write classes, exception,
+a basic stream and a char- and wide string.
 
-For manual build read [Install](https://raw.githubusercontent.com/Doi6doi/vytools/main/doc/install.html).
+For fast use, go directly to [Downloads](https://github.com/Doi6doi/vulcmp/releases).
+
+To build manually, read [Install](install)
 
 This library goes with a free [LICENSE](https://github.com/Doi6doi/vultools/blob/main/LICENSE).
