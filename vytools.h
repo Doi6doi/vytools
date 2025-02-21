@@ -27,7 +27,6 @@ typedef int32_t VytI;
 typedef float VytF;
 typedef uint64_t VytZ;
 
-
 /// 2 coordinate vector
 #define VYT_VEC2( t ) \
 typedef struct Vyt_##t##Vec2 { \
@@ -104,16 +103,10 @@ bool vyt_same( VytStr a, VytStr b );
 /// format string (uses static buffer)
 VytStr vyt_sprintf( VytStr fmt, ... );
 
-/// overlapping rect area
-// bool vyt_rect_overlap( VtlRect a, VtlRect b );
-
 /// return msec passed since epoch
 VytZ vyt_stamp();
 /// return msec passed since last call
 VytU vyt_stamp_diff();
-
-/// choose cpu as graphical card
-int vyt_physical_cpu( void * p );
 
 /// allocate memory
 VtlMem vyt_mem_create( VytU size );

@@ -1,8 +1,11 @@
 # vytools
+
 Utility functions and definitions
 
-Read [Documentation.md](https://github.com/Doi6doi/vytools/blob/main/Documentation.md) for usage details.
+Read the [Documentation](https://raw.githubusercontent.com/Doi6doi/vytools/main/doc/index.html) for usage details.
 
-Read [Install.md](https://github.com/Doi6doi/vytools/blob/main/Install.md) for install instructions.
+You can go directly to [Downloads](https://github.com/Doi6doi/vulcmp/releases).
 
-You don't need to read the un-[LICENSE](https://github.com/Doi6doi/vytools/blob/main/LICENSE) because it allows whatever you want.
+For manual build read [Install](https://raw.githubusercontent.com/Doi6doi/vytools/main/doc/install.html).
+
+This library goes with a free [LICENSE](https://github.com/Doi6doi/vultools/blob/main/LICENSE).

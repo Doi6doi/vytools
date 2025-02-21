@@ -40,21 +40,26 @@ make {
          Git.clone( $url );
       }
 
-      // build project
+      /// build project
       build {
          genDep();
          genObjs();
          genLib();
       }
 
-      // clear generated files
+      /// clear generated files
       clean {
         purge( ["*"+C.objExt(), "*"+Cpp.objExt(), C.libFile("*"), "*.dep"] );
       }
 
-      // run tests
+      /// create documentation
+      doc {
+         make("doc");
+      }
+
+      /// run tests
       test {
-         make( "test" );
+         make("test");
       }
    }
 
