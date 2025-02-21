@@ -8,8 +8,8 @@ make {
       $rm  := "../README.md";
       $int := "install.txt";
       $inh := "Install.html";
-      Dox.set("linkHead","https://doi6doi.github.io/vytools/");
-      Dox.set("linkTail",".html");
+      $base := "https://doi6doi.github.io/vytools/";
+      links(true);
       Dox.set("style","style.css");
    }
 
@@ -31,17 +31,32 @@ make {
 
       /// build index.html and README.md
       index() {
-         foreach ( f | [$ixh, $rm] ) {
-            if ( older( f, $ixt ))
-               Dox.build( f, $ixt );
-         }
+         links(true);
+         if ( older( $rm, $ixt ))
+            Dox.build( $rm, $ixt );
+         links(false);
+         if ( older( $ixh, $ixt ))
+            Dox.build( $ixh, $ixt );
       }
 
       /// build Install.html
       install() {
+         links(false);
          if ( older( $inh, $int ))
             Dox.build( $inh, $int );
       }
+
+      /// turn full links on or off
+      links(x) {
+         if (x) {
+            Dox.set("linkHead",$base);
+            Dox.set("linkTail",".html");
+         } else {
+            Dox.set("linkHead",null);
+            Dox.set("linkTail",null);
+         }
+      }
+
    }
 
 }
