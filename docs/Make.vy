@@ -10,6 +10,7 @@ make {
       $inh := "Install.html";
       Dox.set("linkHead","https://doi6doi.github.io/vytools/");
       Dox.set("linkTail",".html");
+      Dox.set("style","style.css");
    }
 
    target {
