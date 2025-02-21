@@ -1,8 +1,6 @@
 # VyTools
 
-**VyTools** is a [C](https://en.wikipedia.org/wiki/C_(programming_language)
-and [C++](https://en.wikipedia.org/wiki/C%2B%2B) library which makes often
-used tasks easier.
+**VyTools** is a *C* and *C++* library which makes often used tasks easier.
 
 The [C library](c) contains some fixed-size basic types, often used structures,
 basic string and stream handling and a resizable buffer.
