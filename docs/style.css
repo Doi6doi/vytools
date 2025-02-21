@@ -2,9 +2,3 @@ body {
    background-color: #efe;
 }
 
-br::after {
-   content: "";
-   display: block;
-   margin-bottom: 0.5em;
-}
-
