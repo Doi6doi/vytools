@@ -7,21 +7,28 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="br"></div>
+<h1>Install</h1>
+<div class="br"></div>
+Compilation and install instructions for <a href="index.html">vytools</a>.
+<div class="br"></div>
 <h2>Compilation</h2>
 <div class="br"></div>
-Run <code>vymake -f https://raw.githubusercontent.com/Doi6doi/vytools/main/Make.vy</code>
+Run <code>vymake -f https://raw.githubusercontent.com/Doi6doi/vytools/main/Make.vy</code>.
 <div class="br"></div>
 It will clone the repository and build the library
 <div class="br"></div>
+If you already have it cloned you only need <code>vymake</code> without arguments
+<div class="br"></div>
 Tools needed to build:
-* <a href="https://github.com/Doi6doi/vy/releases">vymake</a>,
-* a vymake compatible C compiler (gcc, clang, msvc, ...)
-* a vymake compatible C++ compiler (gcc, clang, msvc, ...)
-* a vymake compatible git client (for cloning)
+<div class="li"><a href="https://github.com/Doi6doi/vy/releases">vymake</a></div>
+<div class="li">a vymake compatible C compiler (<a href="https://gcc.gnu.org/install/download.html">gcc</a>, <a href="https://releases.llvm.org/download.html">clang</a>, <a href="https://visualstudio.microsoft.com/downloads/">msvc</a>, ...)</div>
+<div class="li">a vymake compatible C++ compiler (<a href="https://gcc.gnu.org/install/download.html">gcc</a>, <a href="https://releases.llvm.org/download.html">clang</a>, <a href="https://visualstudio.microsoft.com/downloads/">msvc</a>, ...)</div>
+<div class="li">a vymake compatible <a href="https://git-scm.com/downloads">git</a> client (only for cloning)</div>
 <div class="br"></div>
 <h2>Installation</h2>
 <div class="br"></div>
-Copy the resulting libraries (<em>.so</em> or <em>.dll</em>) to your default library location.
+Copy the resulting libraries (<code>.so</code> or <code>.dll</code>) to your default library location.
 <div class="br"></div>
 Copy <code>vytools.h</code> and <code>vytools.hpp</code> headers to your default include file location
 <div class="br"></div>
@@ -32,7 +39,8 @@ On a Debian-compatible linux, you can also create a debian package (<em>.deb</em
 Run <code>vymake deb</code> in project directory
 <div class="br"></div>
 Tools needed:
-* <a href="https://man7.org/linux/man-pages/man1/dpkg-deb.1.html">dpkg-deb</a>
+<div class="li"><a href="https://github.com/Doi6doi/vy/releases">vymake</a></div>
+<div class="li"><a href="https://man7.org/linux/man-pages/man1/dpkg-deb.1.html">dpkg-deb</a></div>
 <div class="br"></div>
 <div class="br"></div>
 </body></html>

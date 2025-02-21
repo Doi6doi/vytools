@@ -8,8 +8,14 @@ make {
       $rm  := "../README.md";
       $int := "install.txt";
       $inh := "Install.html";
+      $cs  := "../vytools.h";
+      $ch  := "C.html";
+      $cps := "../vytools.hpp";
+      $cph := "Cpp.html";
       $base := "https://doi6doi.github.io/vytools/";
+      $purge := [$ixh,$rm,$inh,$ch,$cph];
       links(true);
+      Dox.set("linkTail",".html");
       Dox.set("style","style.css");
    }
 
@@ -19,11 +25,12 @@ make {
       build {
          index();
          install();
+         c();
       }
 
       /// purge generated files
       clean {
-         purge( [$rm,$inh,$ixh] );
+         purge( $purge );
       }
    }
 
@@ -46,15 +53,17 @@ make {
             Dox.build( $inh, $int );
       }
 
+      c() {
+         links(false);
+         if ( older( $ch, $cs ))
+            Dox.build( $ch, $cs );
+      }
+
       /// turn full links on or off
       links(x) {
-         if (x) {
+         if (x)
             Dox.set("linkHead",$base);
-            Dox.set("linkTail",".html");
-         } else {
-            Dox.set("linkHead",null);
-            Dox.set("linkTail",null);
-         }
+            else Dox.set("linkHead",null);
       }
 
    }

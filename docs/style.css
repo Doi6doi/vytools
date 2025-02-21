@@ -8,6 +8,15 @@ body {
 
 code {
    background-color: #eee;
-   padding: 0.2em;
-   border-radius: 0.3em;
+   padding: 0.3em;
+   border-radius: 0.5em;
+}
+
+.li {
+   margin-left: 1em;
+}
+
+.li::before {
+   content: '\2022';
+   margin-right: 0.5em;
 }
