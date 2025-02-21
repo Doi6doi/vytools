@@ -53,8 +53,8 @@ make {
       }
 
       /// create documentation
-      doc {
-         make("doc");
+      docs {
+         make("docs");
       }
 
       /// run tests
