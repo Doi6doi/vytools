@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="part file">
+<div class="part">
+<a href="index.html">VyTools</a> is a <em>C</em> and <em>C++</em> library which
+makes often used tasks easier.
+<div class="lbr"></div>
+
+The <code>vytools.h</code> header is for the <em>C</em> part.
+It contains some fixed-size basic types,
+often used structures, basic string and stream handling
+and a resizable buffer.
+</div>
+<div class="lbr"></div>
+<div class="part macro" id="VYT_CBEGIN">
+<pre><code>VYT_CBEGIN()
+VYT_CEND()</code></pre>
+<div class="br"></div>macros to write extern &quot;C&quot; block
+</div>
+<div class="lbr"></div>
+<div class="part record" id="Vyt[UILFGZ]Vec2">
+<pre><code>struct Vyt[UILFGZ]Vec2</code></pre>
+<div class="br"></div>2 coordinate vector<div class="br"></div><div class="part field">
+<pre><code>x</code></pre>
+<div class="br"></div>x coordinate
+</div>
+<div class="br"></div><div class="part field">
+<pre><code>y</code></pre>
+<div class="br"></div>y coordinate
+</div>
+
+</div>
+<div class="lbr"></div>
+<div class="part">
+rectangle
+\field left left coorinate of rect
+\field top top coordinate of rect
+\field width width of rect
+\field height height of rect
+</div>
+<div class="lbr"></div>
+<div class="part">
+2d transformation matrix
+\field sx x coordinate sclae
+\field rx x coordinate rotate or skew
+\field sy y coordinate scale
+\field ry y coordinate rotate or skew
+\field dx x coordinate shift
+\field dy y coordinate shift
+</div>
+<div class="lbr"></div>
+<div class="part">
+custom read or write operation
+\field stream pointer to the stream
+\field mem pointer to data
+\field size number of bytes to read or write
+\return number of bytes successfully read or written
+</div>
+<div class="lbr"></div>
+<div class="part">
+write or read a complete block using <code>VytStreamOp</code>
+Keeps calling <code>op</code> until <code>size</code> is reached or <code>0</code> is returned
+\field stream pointer to the stream
+\field op the read or write operation
+\field mem pointer to data
+\field size total number of bytes to write
+\return true if all <code>size</code> bytes are read or written
+</div>
+<div class="lbr"></div>
+<div class="part">
+skip reading bytes
+Calls <code>read</code> without using the data read
+\field stream pointer to the stream
+\field read the read or write operation
+\field size total number of bytes to skip
+\return true if all <code>size</code> bytes are skipped
+</div>
+<div class="lbr"></div>
+<div class="part">
+write line to std error
+All <a href="https://en.cppreference.com/w/c/io/fprintf">printf</a> patterns can be used
+</div>
+<div class="lbr"></div>
+<div class="part">
+write line to std error and exit program
+All <a href="https://en.cppreference.com/w/c/io/fprintf">printf</a> patterns can be used
+</div>
+<div class="lbr"></div>
+<div class="part">
+converts string to natural number
+\field s the string
+\fiels nat number is returned here
+\return true on success
+</div>
+<div class="lbr"></div>
+<div class="part">
+same strings (NULL proof)
+\field a first string
+\field b second string
+\return true if both are <code>NULL</code> or the two are the same
+</div>
+<div class="lbr"></div>
+<div class="part">
+format string (uses static buffer)
+\field fmt format string
+\field ... <a href="https://en.cppreference.com/w/c/io/fprintf">printf</a> arguments
+\return the formatted string
+</div>
+<div class="lbr"></div>
+<div class="part">
+allocate resizable memory
+\field size memory size in bytes
+\return handle to memory
+</div>
+<div class="lbr"></div>
+<div class="part">
+free resizable memory
+\field m handle to memory
+</div>
+<div class="lbr"></div>
+<div class="part">
+resize resizable memory
+\field m handle to memory
+\field size new size in bytes
+\return true if succeeded
+</div>
+<div class="lbr"></div>
+<div class="part">
+allocated resizable memory address
+\field m handle to memory
+\return pointer to allocated memory
+</div>
+<div class="lbr"></div>
+<div class="part">
+resizable memory current size
+\field m handle to memory
+\return current size of memory
+</div>
+
+</div>
+
+</body></html>

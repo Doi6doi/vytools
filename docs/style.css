@@ -3,13 +3,22 @@ body {
 }
 
 .br {
+   height: 0.2em;
+}
+
+.lbr {
    height: 1em;
+}
+
+pre {
+   margin: 0;
 }
 
 code {
    background-color: #eee;
    padding: 0.3em;
    border-radius: 0.5em;
+   display: inline-block;
 }
 
 .li {
@@ -19,4 +28,12 @@ code {
 .li::before {
    content: '\2022';
    margin-right: 0.5em;
+}
+
+.part.field {
+   margin-left: 2em;
+}
+
+.part.param {
+   margin-left: 2em;
 }

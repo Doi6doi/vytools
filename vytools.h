@@ -11,7 +11,7 @@ often used structures, basic string and stream handling
 and a resizable buffer.
 */
 
-/** extern C in c++
+/** macros to write extern "C" block
 \ref #define VYT_CBEGIN()
 \ref #define VYT_CEND()
 */
@@ -43,12 +43,12 @@ typedef float VytF;
 typedef uint64_t VytZ;
 
 /** 2 coordinate vector
-\field x x coordinate
-\field y y coordinate
+\ref struct Vyt[UILFGZ]Vec2 { 
 */
 #define VYT_VEC2( t ) \
 typedef struct Vyt_##t##Vec2 { \
-   Vyt##t x, y; \
+   Vyt##t x; /** x coordinate */ \
+   Vyt##t y; /** y coordinate */ \
 } * Vyt##t##Vec2;
 
 VYT_VEC2( U )

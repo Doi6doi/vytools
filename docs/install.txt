@@ -19,7 +19,7 @@ Tools needed to build:
 
 ## Installation
 
-Copy the resulting libraries (`.so` or `.dll`) to your default library location.
+Copy the resulting library (`vytools.so` or `vytools.dll`) to your default library location.
 
 Copy `vytools.h` and `vytools.hpp` headers to your default include file location
 
