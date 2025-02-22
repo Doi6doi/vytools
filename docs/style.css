@@ -1,5 +1,14 @@
+* {
+   box-sizing: border-box;
+}
+
 body {
    background-color: #efe;
+   padding: 1em;
+}
+
+.hr {
+   height: 3em;
 }
 
 .br {
@@ -30,10 +39,8 @@ code {
    margin-right: 0.5em;
 }
 
-.part.field {
-   margin-left: 2em;
-}
-
-.part.param {
+.part.field, 
+.part.param, 
+.part.return {
    margin-left: 2em;
 }
