@@ -9,6 +9,9 @@
 <body>
 <div class="part file">
 <div class="part">
+<h1>vytools.h</h1>
+<div class="lbr"></div>
+
 <a href="index.html">VyTools</a> is a <em>C</em> and <em>C++</em> library which
 makes often used tasks easier.
 <div class="lbr"></div>
@@ -17,9 +20,127 @@ The <code>vytools.h</code> header is for the <em>C</em> part.
 It contains some fixed-size basic types,
 often used structures, basic string and stream handling
 and a resizable buffer.
-<div class="lbr"></div>
+</div>
+<div class="hr"></div><div class="part">
+<h2>Contents</h2><div class="br"></div><div class="part toc">
+<div class="part tocItem">
+<code><a href="#VYT_CBEGIN">VYT_CBEGIN</a></code>
+macros to write extern &quot;C&quot; block
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#VytStr">VytStr</a></code>
+C string
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#VytU">VytU</a></code>
+unsigned 32-bit integer
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#VytI">VytI</a></code>
+signed 32-bit integer
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#VytF">VytF</a></code>
+32-bit floating point value
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#VytZ">VytZ</a></code>
+unsigned 64-bit integer
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#Vyt?Vec2">Vyt?Vec2</a></code>
+2 coordinate vector
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#Vyt?Rect">Vyt?Rect</a></code>
+rectangle
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#Vyt?Trans2">Vyt?Trans2</a></code>
+2d transformation matrix
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#VtlMem">VtlMem</a></code>
+resizable allocated memory
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#VytStreamOp">VytStreamOp</a></code>
+custom read or write operation
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#vyt_fread">vyt_fread</a></code>
+fread as <code>VytStreamOp</code>
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#vyt_fread_part">vyt_fread_part</a></code>
+fread as <code>VytStreamOp</code>, can read less than full block
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#vyt_fwrite">vyt_fwrite</a></code>
+fwrite as <code>VytStreamOp</code>
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#vyt_block_op">vyt_block_op</a></code>
+write or read a complete block using <code>VytStreamOp</code>.
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#vyt_read_skip">vyt_read_skip</a></code>
+skip reading bytes.
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#vyt_ewrite">vyt_ewrite</a></code>
+write line to std error.
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#vyt_die">vyt_die</a></code>
+write line to std error and exit program.
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#vyt_nat">vyt_nat</a></code>
+converts string to natural number
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#vyt_same">vyt_same</a></code>
+same strings (<code>NULL</code> proof)
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#vyt_sprintf">vyt_sprintf</a></code>
+format string (uses static buffer)
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#vyt_stamp">vyt_stamp</a></code>
+milliseconds passed since epoch
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#vyt_stamp_diff">vyt_stamp_diff</a></code>
+milliseconds passed since last call to <code>vyt_stamp_diff</code>
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#vyt_mem_create">vyt_mem_create</a></code>
+allocate resizable memory
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#vyt_mem_free">vyt_mem_free</a></code>
+free resizable memory
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#vyt_mem_resize">vyt_mem_resize</a></code>
+resize resizable memory
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#vyt_mem_address">vyt_mem_address</a></code>
+allocated resizable memory address
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#vyt_mem_size">vyt_mem_size</a></code>
+resizable memory current size
+</div>
 
-\toc
+</div>
+
+</div>
+<div class="hr"></div><div class="part">
+<h2>Details</h2>
 </div>
 <div class="hr"></div><div class="part macro" id="VYT_CBEGIN">
 <pre><code>VYT_CBEGIN()
@@ -46,56 +167,53 @@ VYT_CEND()</code></pre>
 <pre><code>VytZ</code></pre>
 <div class="br"></div>unsigned 64-bit integer
 </div>
-<div class="hr"></div><div class="part macro" id="Vyt[UILFGZ]Vec2">
-<pre><code>struct Vyt[UILFGZ]Vec2
-VYT_VEC2( t )</code></pre>
-<div class="br"></div>2 coordinate vector
-</div>
-<div class="hr"></div><div class="part field">
+<div class="hr"></div><div class="part record" id="Vyt?Vec2">
+<pre><code>struct Vyt?Vec2</code></pre>
+<div class="br"></div>2 coordinate vector<div class="br"></div><div class="part field">
 <code>x</code> x coordinate
 </div>
-<div class="hr"></div><div class="part field">
+<div class="br"></div><div class="part field">
 <code>y</code> y coordinate
 </div>
-<div class="hr"></div><div class="part macro" id="Vyt[UILFGZ]Rect">
-<pre><code>struct Vyt[UILFGZ]Rect
-VYT_RECT( t )</code></pre>
-<div class="br"></div>rectangle
+
 </div>
-<div class="hr"></div><div class="part field">
+<div class="hr"></div><div class="part record" id="Vyt?Rect">
+<pre><code>struct Vyt?Rect</code></pre>
+<div class="br"></div>rectangle<div class="br"></div><div class="part field">
 <code>left</code> left x coordinate
 </div>
-<div class="hr"></div><div class="part field">
+<div class="br"></div><div class="part field">
 <code>top</code> top y coordinate
 </div>
-<div class="hr"></div><div class="part field">
+<div class="br"></div><div class="part field">
 <code>width</code> width
 </div>
-<div class="hr"></div><div class="part field">
+<div class="br"></div><div class="part field">
 <code>height</code> height
 </div>
-<div class="hr"></div><div class="part macro" id="Vyt[UILFGZ]Trans2">
-<pre><code>struct Vyt[UILFGZ]Trans2
-VYT_TRANS2( t )</code></pre>
-<div class="br"></div>2d transformation matrix
+
 </div>
-<div class="hr"></div><div class="part field">
+<div class="hr"></div><div class="part record" id="Vyt?Trans2">
+<pre><code>struct Vyt?Trans2</code></pre>
+<div class="br"></div>2d transformation matrix<div class="br"></div><div class="part field">
 <code>sx</code> x coordinate scale
 </div>
-<div class="hr"></div><div class="part field">
+<div class="br"></div><div class="part field">
 <code>rx</code> x coordinate rotate or skew
 </div>
-<div class="hr"></div><div class="part field">
+<div class="br"></div><div class="part field">
 <code>ry</code> y coordinate rotate or skew
 </div>
-<div class="hr"></div><div class="part field">
+<div class="br"></div><div class="part field">
 <code>sy</code> y coordinate scale
 </div>
-<div class="hr"></div><div class="part field">
+<div class="br"></div><div class="part field">
 <code>dx</code> x coordinate shift
 </div>
-<div class="hr"></div><div class="part field">
+<div class="br"></div><div class="part field">
 <code>dy</code> y coordinate shift
+</div>
+
 </div>
 <div class="hr"></div><div class="part type" id="VtlMem">
 <pre><code>VtlMem</code></pre>
@@ -131,7 +249,7 @@ VYT_TRANS2( t )</code></pre>
 </div>
 <div class="hr"></div><div class="part func" id="vyt_block_op">
 <pre><code>bool vyt_block_op( void * stream, VytStreamOp op, void * mem, VytU size )</code></pre>
-<div class="br"></div>write or read a complete block using <code>VytStreamOp</code>
+<div class="br"></div>write or read a complete block using <code>VytStreamOp</code>.
 Keeps calling <code>op</code> until <code>size</code> is reached or <code>0</code> is returned<div class="br"></div><div class="part param">
 <code>stream</code> pointer to the stream
 </div>
@@ -151,7 +269,7 @@ Keeps calling <code>op</code> until <code>size</code> is reached or <code>0</cod
 </div>
 <div class="hr"></div><div class="part func" id="vyt_read_skip">
 <pre><code>bool vyt_read_skip( void * stream, VytStreamOp read, VytU size )</code></pre>
-<div class="br"></div>skip reading bytes
+<div class="br"></div>skip reading bytes.
 Calls <code>read</code> without using the data read<div class="br"></div><div class="part param">
 <code>stream</code> pointer to the stream
 </div>
@@ -168,12 +286,12 @@ Calls <code>read</code> without using the data read<div class="br"></div><div cl
 </div>
 <div class="hr"></div><div class="part macro" id="vyt_ewrite">
 <pre><code>vyt_ewrite( ... )</code></pre>
-<div class="br"></div>write line to std error
+<div class="br"></div>write line to std error.
 All <a href="https://en.cppreference.com/w/c/io/fprintf">printf</a> patterns can be used
 </div>
 <div class="hr"></div><div class="part macro" id="vyt_die">
 <pre><code>vyt_die( ... )</code></pre>
-<div class="br"></div>write line to std error and exit program
+<div class="br"></div>write line to std error and exit program.
 All <a href="https://en.cppreference.com/w/c/io/fprintf">printf</a> patterns can be used
 </div>
 <div class="hr"></div><div class="part func" id="vyt_nat">

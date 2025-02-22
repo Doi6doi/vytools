@@ -2,16 +2,20 @@
 #define VYTOOLSH
 
 /**
+# vytools.h
+
 [VyTools](index) is a *C* and *C++* library which
 makes often used tasks easier.
 
 The `vytools.h` header is for the *C* part.
 It contains some fixed-size basic types,
 often used structures, basic string and stream handling
-and a resizable buffer.
+and a resizable buffer. */
 
-\toc
-*/
+/** ## Contents
+\toc */
+
+/** ## Details */
 
 /** macros to write extern "C" block
 \ref #define VYT_CBEGIN()
@@ -44,7 +48,7 @@ typedef float VytF;
 typedef uint64_t VytZ;
 
 /** 2 coordinate vector
-\ref struct Vyt[UILFGZ]Vec2 { */
+\ref struct Vyt?Vec2 { */
 #define VYT_VEC2( t ) \
 typedef struct Vyt_##t##Vec2 { \
    Vyt##t x; /** x coordinate */ \
@@ -54,7 +58,7 @@ typedef struct Vyt_##t##Vec2 { \
 VYT_VEC2( U )
 
 /** rectangle
-\ref struct Vyt[UILFGZ]Rect { */
+\ref struct Vyt?Rect { */
 #define VYT_RECT( t ) \
 typedef struct Vyt_##t##Rect { \
    Vyt##t left; /** left x coordinate */ \
@@ -66,7 +70,7 @@ typedef struct Vyt_##t##Rect { \
 VYT_RECT( U )
 
 /** 2d transformation matrix
-\ref struct Vyt[UILFGZ]Trans2 { */
+\ref struct Vyt?Trans2 { */
 #define VYT_TRANS2( t ) \
 typedef struct Vyt_##t##Trans2 { \
    Vyt##t sx; /** x coordinate scale */ \
@@ -105,7 +109,7 @@ VytU vyt_fread_part( void * stream, void * mem, VytU size );
 /// fwrite as `VytStreamOp`
 VytU vyt_fwrite( void * stream, void * mem, VytU size );
 
-/** write or read a complete block using `VytStreamOp`
+/** write or read a complete block using `VytStreamOp`.
 Keeps calling `op` until `size` is reached or `0` is returned
 \param stream pointer to the stream
 \param op the read or write operation
@@ -114,7 +118,7 @@ Keeps calling `op` until `size` is reached or `0` is returned
 \return true if all `size` bytes are read or written */
 bool vyt_block_op( void * stream, VytStreamOp op, void * mem, VytU size );
 
-/** skip reading bytes
+/** skip reading bytes.
 Calls `read` without using the data read
 \param stream pointer to the stream
 \param read the read or write operation
@@ -122,7 +126,7 @@ Calls `read` without using the data read
 \return true if all `size` bytes are skipped */
 bool vyt_read_skip( void * stream, VytStreamOp read, VytU size );
 
-/** write line to std error
+/** write line to std error.
 All [printf](https://en.cppreference.com/w/c/io/fprintf) patterns can be used */
 #define vyt_ewrite( ... ) { \
    fprintf( stderr, __VA_ARGS__ ); \
@@ -130,7 +134,7 @@ All [printf](https://en.cppreference.com/w/c/io/fprintf) patterns can be used */
    fflush( stderr ); \
 }
 
-/** write line to std error and exit program
+/** write line to std error and exit program.
 All [printf](https://en.cppreference.com/w/c/io/fprintf) patterns can be used */
 #define vyt_die( ... ) { \
    vyt_ewrite( __VA_ARGS__ ); \
@@ -157,6 +161,7 @@ VytStr vyt_sprintf( VytStr fmt, ... );
 
 /// milliseconds passed since epoch
 VytZ vyt_stamp();
+
 /// milliseconds passed since last call to `vyt_stamp_diff`
 VytU vyt_stamp_diff();
 
