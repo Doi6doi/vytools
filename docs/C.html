@@ -28,24 +28,28 @@ and a resizable buffer.
 macros to write extern &quot;C&quot; block
 </div>
 <div class="br"></div><div class="part tocItem">
+<code><a href="#VytPtr">VytPtr</a></code>
+Typeless pointer
+</div>
+<div class="br"></div><div class="part tocItem">
 <code><a href="#VytStr">VytStr</a></code>
 C string
 </div>
 <div class="br"></div><div class="part tocItem">
 <code><a href="#VytU">VytU</a></code>
-unsigned 32-bit integer
+Unsigned 32-bit integer
 </div>
 <div class="br"></div><div class="part tocItem">
 <code><a href="#VytI">VytI</a></code>
-signed 32-bit integer
+Signed 32-bit integer
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#VytZ">VytZ</a></code>
+Unsigned 64-bit integer
 </div>
 <div class="br"></div><div class="part tocItem">
 <code><a href="#VytF">VytF</a></code>
 32-bit floating point value
-</div>
-<div class="br"></div><div class="part tocItem">
-<code><a href="#VytZ">VytZ</a></code>
-unsigned 64-bit integer
 </div>
 <div class="br"></div><div class="part tocItem">
 <code><a href="#Vyt?Vec2">Vyt?Vec2</a></code>
@@ -53,31 +57,35 @@ unsigned 64-bit integer
 </div>
 <div class="br"></div><div class="part tocItem">
 <code><a href="#Vyt?Rect">Vyt?Rect</a></code>
-rectangle
+Rectangle
 </div>
 <div class="br"></div><div class="part tocItem">
 <code><a href="#Vyt?Trans2">Vyt?Trans2</a></code>
 2d transformation matrix
 </div>
 <div class="br"></div><div class="part tocItem">
+<code><a href="#VytStream">VytStream</a></code>
+Any stream type
+</div>
+<div class="br"></div><div class="part tocItem">
 <code><a href="#VtlMem">VtlMem</a></code>
-resizable allocated memory
+Resizable allocated memory
 </div>
 <div class="br"></div><div class="part tocItem">
 <code><a href="#VytStreamOp">VytStreamOp</a></code>
-custom read or write operation
+Custom read or write operation
 </div>
 <div class="br"></div><div class="part tocItem">
 <code><a href="#vyt_fread">vyt_fread</a></code>
-fread as <code>VytStreamOp</code>
+<code><a href="https://en.cppreference.com/w/c/io/fread">fread</a></code> as <code>VytStreamOp</code>
 </div>
 <div class="br"></div><div class="part tocItem">
 <code><a href="#vyt_fread_part">vyt_fread_part</a></code>
-fread as <code>VytStreamOp</code>, can read less than full block
+<code><a href="https://en.cppreference.com/w/c/io/fread">fread</a></code> as <code>VytStreamOp</code>, can read less than full block
 </div>
 <div class="br"></div><div class="part tocItem">
 <code><a href="#vyt_fwrite">vyt_fwrite</a></code>
-fwrite as <code>VytStreamOp</code>
+<code><a href="https://en.cppreference.com/w/c/io/fwrite">fwrite</a></code> as <code>VytStreamOp</code>
 </div>
 <div class="br"></div><div class="part tocItem">
 <code><a href="#vyt_block_op">vyt_block_op</a></code>
@@ -143,9 +151,12 @@ resizable memory current size
 <h2>Details</h2>
 </div>
 <div class="hr"></div><div class="part macro" id="VYT_CBEGIN">
-<pre><code>VYT_CBEGIN()
-VYT_CEND()</code></pre>
+<pre><code>VYT_CBEGIN()</code></pre>
 <div class="br"></div>macros to write extern &quot;C&quot; block
+</div>
+<div class="hr"></div><div class="part type" id="VytPtr">
+<pre><code>VytPtr</code></pre>
+<div class="br"></div>Typeless pointer
 </div>
 <div class="hr"></div><div class="part type" id="VytStr">
 <pre><code>VytStr</code></pre>
@@ -153,183 +164,203 @@ VYT_CEND()</code></pre>
 </div>
 <div class="hr"></div><div class="part type" id="VytU">
 <pre><code>VytU</code></pre>
-<div class="br"></div>unsigned 32-bit integer
+<div class="br"></div>Unsigned 32-bit integer
 </div>
 <div class="hr"></div><div class="part type" id="VytI">
 <pre><code>VytI</code></pre>
-<div class="br"></div>signed 32-bit integer
+<div class="br"></div>Signed 32-bit integer
+</div>
+<div class="hr"></div><div class="part type" id="VytZ">
+<pre><code>VytZ</code></pre>
+<div class="br"></div>Unsigned 64-bit integer
 </div>
 <div class="hr"></div><div class="part type" id="VytF">
 <pre><code>VytF</code></pre>
 <div class="br"></div>32-bit floating point value
 </div>
-<div class="hr"></div><div class="part type" id="VytZ">
-<pre><code>VytZ</code></pre>
-<div class="br"></div>unsigned 64-bit integer
-</div>
 <div class="hr"></div><div class="part record" id="Vyt?Vec2">
 <pre><code>struct Vyt?Vec2</code></pre>
-<div class="br"></div>2 coordinate vector<div class="br"></div><div class="part field">
-<code>x</code> x coordinate
+<div class="br"></div>2 coordinate vector<div class="br"></div><div class="part macro" id="Vyt?Vec2.VYT_VEC2">
+<pre><code>VYT_VEC2( t )</code></pre>
+
 </div>
-<div class="br"></div><div class="part field">
-<code>y</code> y coordinate
+<div class="br"></div><div class="part field" id="Vyt?Vec2.x">
+<code>x</code>
+</div>
+<div class="br"></div><div class="part field" id="Vyt?Vec2.y">
+<code>y</code>
 </div>
 
 </div>
 <div class="hr"></div><div class="part record" id="Vyt?Rect">
 <pre><code>struct Vyt?Rect</code></pre>
-<div class="br"></div>rectangle<div class="br"></div><div class="part field">
-<code>left</code> left x coordinate
+<div class="br"></div>Rectangle<div class="br"></div><div class="part macro" id="Vyt?Rect.VYT_RECT">
+<pre><code>VYT_RECT( t )</code></pre>
+
 </div>
-<div class="br"></div><div class="part field">
-<code>top</code> top y coordinate
+<div class="br"></div><div class="part field" id="Vyt?Rect.left">
+<code>left</code>
 </div>
-<div class="br"></div><div class="part field">
-<code>width</code> width
+<div class="br"></div><div class="part field" id="Vyt?Rect.top">
+<code>top</code>
 </div>
-<div class="br"></div><div class="part field">
-<code>height</code> height
+<div class="br"></div><div class="part field" id="Vyt?Rect.width">
+<code>width</code>
+</div>
+<div class="br"></div><div class="part field" id="Vyt?Rect.height">
+<code>height</code>
 </div>
 
 </div>
 <div class="hr"></div><div class="part record" id="Vyt?Trans2">
 <pre><code>struct Vyt?Trans2</code></pre>
-<div class="br"></div>2d transformation matrix<div class="br"></div><div class="part field">
-<code>sx</code> x coordinate scale
+<div class="br"></div>2d transformation matrix<div class="br"></div><div class="part macro" id="Vyt?Trans2.VYT_TRANS2">
+<pre><code>VYT_TRANS2( t )</code></pre>
+
 </div>
-<div class="br"></div><div class="part field">
-<code>rx</code> x coordinate rotate or skew
+<div class="br"></div><div class="part field" id="Vyt?Trans2.sx">
+<code>sx</code>
 </div>
-<div class="br"></div><div class="part field">
-<code>ry</code> y coordinate rotate or skew
+<div class="br"></div><div class="part field" id="Vyt?Trans2.rx">
+<code>rx</code>
 </div>
-<div class="br"></div><div class="part field">
-<code>sy</code> y coordinate scale
+<div class="br"></div><div class="part field" id="Vyt?Trans2.ry">
+<code>ry</code>
 </div>
-<div class="br"></div><div class="part field">
-<code>dx</code> x coordinate shift
+<div class="br"></div><div class="part field" id="Vyt?Trans2.sy">
+<code>sy</code>
 </div>
-<div class="br"></div><div class="part field">
-<code>dy</code> y coordinate shift
+<div class="br"></div><div class="part field" id="Vyt?Trans2.dx">
+<code>dx</code>
+</div>
+<div class="br"></div><div class="part field" id="Vyt?Trans2.dy">
+<code>dy</code>
 </div>
 
 </div>
+<div class="hr"></div><div class="part type" id="VytStream">
+<pre><code>VytStream</code></pre>
+<div class="br"></div>Any stream type
+</div>
 <div class="hr"></div><div class="part type" id="VtlMem">
 <pre><code>VtlMem</code></pre>
-<div class="br"></div>resizable allocated memory
+<div class="br"></div>Resizable allocated memory
 </div>
 <div class="hr"></div><div class="part func" id="VytStreamOp">
-<pre><code>VytU (* VytStreamOp)( void * stream, void * mem, VytU size )</code></pre>
-<div class="br"></div>custom read or write operation<div class="br"></div><div class="part param">
-<code>stream</code> pointer to the stream
+<pre><code>VytU (* VytStreamOp)( VytStream stream, VytPtr mem, VytU size )</code></pre>
+<div class="br"></div>Custom read or write operation<div class="br"></div><div class="part param">
+<code>stream</code> Pointer to the stream
 </div>
 <div class="br"></div><div class="part param">
-<code>mem</code> pointer to data
+<code>mem</code> Pointer to data
 </div>
 <div class="br"></div><div class="part param">
-<code>size</code> number of bytes to read or write
+<code>size</code> Number of bytes to read or write
 </div>
 <div class="br"></div><div class="part return">
-<code>return</code> number of bytes successfully read or written
+<code>return</code> Number of bytes successfully read or written
 </div>
 
 </div>
 <div class="hr"></div><div class="part func" id="vyt_fread">
-<pre><code>VytU vyt_fread( void * stream, void * mem, VytU size )</code></pre>
-<div class="br"></div>fread as <code>VytStreamOp</code>
+<pre><code>VytU vyt_fread( VytStream stream, void VytPtr mem, VytU size )</code></pre>
+<div class="br"></div><code><a href="https://en.cppreference.com/w/c/io/fread">fread</a></code> as <code>VytStreamOp</code>
 </div>
 <div class="hr"></div><div class="part func" id="vyt_fread_part">
-<pre><code>VytU vyt_fread_part( void * stream, void * mem, VytU size )</code></pre>
-<div class="br"></div>fread as <code>VytStreamOp</code>, can read less than full block
+<pre><code>VytU vyt_fread_part( VytStream stream, VytPtr mem, VytU size )</code></pre>
+<div class="br"></div><code><a href="https://en.cppreference.com/w/c/io/fread">fread</a></code> as <code>VytStreamOp</code>, can read less than full block
 </div>
 <div class="hr"></div><div class="part func" id="vyt_fwrite">
-<pre><code>VytU vyt_fwrite( void * stream, void * mem, VytU size )</code></pre>
-<div class="br"></div>fwrite as <code>VytStreamOp</code>
+<pre><code>VytU vyt_fwrite( VytStream stream, VytPtr mem, VytU size )</code></pre>
+<div class="br"></div><code><a href="https://en.cppreference.com/w/c/io/fwrite">fwrite</a></code> as <code>VytStreamOp</code>
 </div>
 <div class="hr"></div><div class="part func" id="vyt_block_op">
-<pre><code>bool vyt_block_op( void * stream, VytStreamOp op, void * mem, VytU size )</code></pre>
+<pre><code>bool vyt_block_op( VytStream stream, VytStreamOp op, VytPtr mem, VytU size )</code></pre>
 <div class="br"></div>write or read a complete block using <code>VytStreamOp</code>.
 Keeps calling <code>op</code> until <code>size</code> is reached or <code>0</code> is returned<div class="br"></div><div class="part param">
-<code>stream</code> pointer to the stream
+<code>stream</code> Pointer to the stream
 </div>
 <div class="br"></div><div class="part param">
-<code>op</code> the read or write operation
+<code>op</code> The read or write operation
 </div>
 <div class="br"></div><div class="part param">
-<code>mem</code> pointer to data
+<code>mem</code> Pointer to data
 </div>
 <div class="br"></div><div class="part param">
-<code>size</code> total number of bytes to write
+<code>size</code> Total number of bytes to write
 </div>
 <div class="br"></div><div class="part return">
-<code>return</code> true if all <code>size</code> bytes are read or written
+<code>return</code> <code>true</code> if all <code>size</code> bytes are read or written
 </div>
 
 </div>
 <div class="hr"></div><div class="part func" id="vyt_read_skip">
-<pre><code>bool vyt_read_skip( void * stream, VytStreamOp read, VytU size )</code></pre>
+<pre><code>bool vyt_read_skip( VytStream stream, VytStreamOp read, VytU size )</code></pre>
 <div class="br"></div>skip reading bytes.
 Calls <code>read</code> without using the data read<div class="br"></div><div class="part param">
-<code>stream</code> pointer to the stream
+<code>stream</code> Pointer to the stream
 </div>
 <div class="br"></div><div class="part param">
-<code>read</code> the read or write operation
+<code>read</code> The read or write operation
 </div>
 <div class="br"></div><div class="part param">
-<code>size</code> total number of bytes to skip
+<code>size</code> Total number of bytes to skip
 </div>
 <div class="br"></div><div class="part return">
-<code>return</code> true if all <code>size</code> bytes are skipped
+<code>return</code> <code>true</code> if all <code>size</code> bytes are skipped
 </div>
 
 </div>
 <div class="hr"></div><div class="part macro" id="vyt_ewrite">
 <pre><code>vyt_ewrite( ... )</code></pre>
-<div class="br"></div>write line to std error.
-All <a href="https://en.cppreference.com/w/c/io/fprintf">printf</a> patterns can be used
+<div class="br"></div>write line to std error.<div class="br"></div><div class="part param">
+<code>...</code> Arguments as in <a href="https://en.cppreference.com/w/c/io/fprintf">printf</a>
+</div>
+
 </div>
 <div class="hr"></div><div class="part macro" id="vyt_die">
 <pre><code>vyt_die( ... )</code></pre>
-<div class="br"></div>write line to std error and exit program.
-All <a href="https://en.cppreference.com/w/c/io/fprintf">printf</a> patterns can be used
+<div class="br"></div>write line to std error and exit program.<div class="br"></div><div class="part param">
+<code>...</code> Arguments as in <a href="https://en.cppreference.com/w/c/io/fprintf">printf</a>
+</div>
+
 </div>
 <div class="hr"></div><div class="part func" id="vyt_nat">
 <pre><code>bool vyt_nat( VytStr s, VytU * nat )</code></pre>
 <div class="br"></div>converts string to natural number<div class="br"></div><div class="part param">
-<code>s</code> the string
+<code>s</code> The string
 </div>
 <div class="br"></div><div class="part param">
-<code>nat</code> number is returned here
+<code>nat</code> Number is returned here
 </div>
 <div class="br"></div><div class="part return">
-<code>return</code> true on success
+<code>return</code> <code>true</code> on success
 </div>
 
 </div>
 <div class="hr"></div><div class="part func" id="vyt_same">
 <pre><code>bool vyt_same( VytStr a, VytStr b )</code></pre>
 <div class="br"></div>same strings (<code>NULL</code> proof)<div class="br"></div><div class="part param">
-<code>a</code> first string
+<code>a</code> First string
 </div>
 <div class="br"></div><div class="part param">
-<code>b</code> second string
+<code>b</code> Second string
 </div>
 <div class="br"></div><div class="part return">
-<code>return</code> true if both are <code>NULL</code> or the two are the same
+<code>return</code> <code>true</code> if both are <code>NULL</code> or the two are the same
 </div>
 
 </div>
 <div class="hr"></div><div class="part func" id="vyt_sprintf">
 <pre><code>VytStr vyt_sprintf( VytStr fmt, ... )</code></pre>
 <div class="br"></div>format string (uses static buffer)<div class="br"></div><div class="part param">
-<code>fmt</code> format string
+<code>fmt</code> Format string
 </div>
 <div class="br"></div><div class="part param">
-<code>...</code> <a href="https://en.cppreference.com/w/c/io/fprintf">printf</a> arguments
+<code>...</code> <code><a href="https://en.cppreference.com/w/c/io/fprintf">printf</a></code> arguments
 </div>
 <div class="br"></div><div class="part return">
-<code>return</code> the formatted string
+<code>return</code> The formatted string
 </div>
 
 </div>
@@ -344,50 +375,50 @@ All <a href="https://en.cppreference.com/w/c/io/fprintf">printf</a> patterns can
 <div class="hr"></div><div class="part func" id="vyt_mem_create">
 <pre><code>VtlMem vyt_mem_create( VytU size )</code></pre>
 <div class="br"></div>allocate resizable memory<div class="br"></div><div class="part param">
-<code>size</code> memory size in bytes
+<code>size</code> Memory size in bytes
 </div>
 <div class="br"></div><div class="part return">
-<code>return</code> handle to memory
+<code>return</code> Handle to memory
 </div>
 
 </div>
 <div class="hr"></div><div class="part func" id="vyt_mem_free">
 <pre><code>void vyt_mem_free( VtlMem m )</code></pre>
 <div class="br"></div>free resizable memory<div class="br"></div><div class="part param">
-<code>m</code> handle to memory
+<code>m</code> Handle to memory
 </div>
 
 </div>
 <div class="hr"></div><div class="part func" id="vyt_mem_resize">
 <pre><code>bool vyt_mem_resize( VtlMem m, VytU size )</code></pre>
 <div class="br"></div>resize resizable memory<div class="br"></div><div class="part param">
-<code>m</code> handle to memory
+<code>m</code> Handle to memory
 </div>
 <div class="br"></div><div class="part param">
-<code>size</code> new size in bytes
+<code>size</code> New size in bytes
 </div>
 <div class="br"></div><div class="part return">
-<code>return</code> true if succeeded
+<code>return</code> <code>true</code> if succeeded
 </div>
 
 </div>
 <div class="hr"></div><div class="part func" id="vyt_mem_address">
-<pre><code>void * vyt_mem_address( VtlMem m )</code></pre>
+<pre><code>VytPtr vyt_mem_address( VtlMem m )</code></pre>
 <div class="br"></div>allocated resizable memory address<div class="br"></div><div class="part param">
-<code>m</code> handle to memory
+<code>m</code> Handle to memory
 </div>
 <div class="br"></div><div class="part return">
-<code>return</code> pointer to allocated memory
+<code>return</code> Pointer to allocated memory
 </div>
 
 </div>
 <div class="hr"></div><div class="part func" id="vyt_mem_size">
 <pre><code>VytU vyt_mem_size( VtlMem m )</code></pre>
 <div class="br"></div>resizable memory current size<div class="br"></div><div class="part param">
-<code>m</code> handle to memory
+<code>m</code> Handle to memory
 </div>
 <div class="br"></div><div class="part return">
-<code>return</code> current size of memory
+<code>return</code> Current size of memory
 </div>
 
 </div>

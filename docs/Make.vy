@@ -3,10 +3,10 @@ make {
    import { Dox; }
    
    init {
-      $ixt := "index.txt";
+      $ixx := "index.dox";
       $ixh := "index.html";
       $rm  := "../README.md";
-      $int := "install.txt";
+      $inx := "install.dox";
       $inh := "Install.html";
       $cs  := "../vytools.h";
       $ch  := "C.html";
@@ -26,6 +26,7 @@ make {
          index();
          install();
          c();
+         cpp();
       }
 
       /// purge generated files
@@ -39,24 +40,32 @@ make {
       /// build index.html and README.md
       index() {
          links(true);
-         if ( older( $rm, $ixt ))
-            Dox.build( $rm, $ixt );
+         if ( older( $rm, $ixx ))
+            Dox.build( $rm, $ixx );
          links(false);
-         if ( older( $ixh, $ixt ))
-            Dox.build( $ixh, $ixt );
+         if ( older( $ixh, $ixx ))
+            Dox.build( $ixh, $ixx );
       }
 
       /// build Install.html
       install() {
          links(false);
-         if ( older( $inh, $int ))
-            Dox.build( $inh, $int );
+         if ( older( $inh, $inx ))
+            Dox.build( $inh, $inx );
       }
 
+      /// build C.html
       c() {
          links(false);
          if ( older( $ch, $cs ))
             Dox.build( $ch, $cs );
+      }
+
+      /// build Cpp.html
+      cpp() {
+         links(false);
+         if ( older( $cph, $cps ))
+            Dox.build( $cph, $cps );
       }
 
       /// turn full links on or off

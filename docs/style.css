@@ -32,15 +32,25 @@ code {
 
 .li {
    margin-left: 1em;
-}
-
-.li::before {
-   content: '\2022';
-   margin-right: 0.5em;
+   margin-bottom: 0.3em;
 }
 
 .part.field, 
 .part.param, 
-.part.return {
+.part.return,
+.parts {
    margin-left: 2em;
+}
+
+.parts .part.field {
+   margin-left:0;
+}
+
+.cls {
+   border: 1px solid #ddd;
+   border-radius: 1em;
+}
+
+.bullet {
+   margin-right: 0.7em;
 }

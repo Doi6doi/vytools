@@ -1,19 +1,50 @@
 #ifndef VYTOOLSHPP
 #define VYTOOLSHPP
 
+/**
+# vytools.hpp
+
+[VyTools](index) is a *C* and *C++* library which
+makes often used tasks easier.
+
+The `vytools.hpp` is for the *C++* part.
+It defines the namespace `vyt`. 
+All other declarations are in that namespace.
+
+It contains basic types,
+some utility functions, base classes for non-create,
+non-assign, referent-counted or copy-on-write classes,
+exception, a basic stream and a char- and wide string. */
+
+/** ## Contents
+\toc */
+
+/** ## Details */
+
 #include <cstdint>
 #include <cwchar>
 
 namespace vyt {
 
-/// basic types
+/** Typeless pointer
+interchangeable with `[VytPtr](C#VytPtr)`*/
 typedef void * Ptr;
-typedef int32_t Int;
+/** Unsigned 32-bit integer
+interchangeable with `[VytU](C#VytU)`*/
 typedef uint32_t Uint;
+/** Signed 32-bit integer
+interchangeable with `[VytI](C#VytI)`*/
+typedef int32_t Int;
+/** Unsigned 64-bit integer
+interchangeable with `[VytZ](C#VytZ)`*/
 typedef uint64_t Zint;
+/** 32-bit floating point value
+interchangeable with `[VytF](C#VytF)`*/
 typedef float Float;
 
+/// 8-bit character
 typedef char Char;
+/// Unicode character
 typedef wchar_t Wide;
 
 class CString;
@@ -21,58 +52,90 @@ class WString;
 class Exc;
 class Stream;
 
-/// useful calls
+/// Utility functions
 struct Tools {
-   /// exception for index out of bounds
+   /** Exception for index out of bounds
+   \return The exception */
    static Exc noIdx();
-   /// exception if a method is not implemented
+   /** Exception if a method is not implemented
+   \param meth The method name
+   \return The exception */
    static Exc notImpl( const char * meth );
-   /// memory reallocation
+   /** Memory reallocation
+   \param old Previous memory address or `NULL`
+   \param size New memory size
+   \return Pointer to allocated memory or `NULL` if `size` is `0`
+   \throws `Exc` if allocation fails */
    static Ptr realloc( Ptr old, Uint size );
-   /// write to std out
+   /** Write formatted string to `stderr`
+   \param fmt Format string as in [printf](https://en.cppreference.com/w/c/io/fprintf)
+   \param ... Arguments as in [printf](https://en.cppreference.com/w/c/io/fprintf)*/
    static void debug(WString fmt, ... );
-   /// standard input
+   /** Standard input
+   \return Stream handle */
    static Stream stdIn();
-   /// standard output
+   /** Standard output
+   \return Stream handle */
    static Stream stdOut();
-   /// standard error
+   /** Standard error
+   \return Stream handle */
    static Stream stdErr();
 };
 
-/// no-create class (e.g singleton)
+/** No-create class 
+(e.g singleton) */
 class NoCreate {
 protected:
+   /** Hidden default constructor */
    NoCreate();
 };
 
-/// no-assignment class
+/** No-assignment class */
 class NoAssign {
 protected:   
-   NoAssign & operator = (const NoAssign &);
+   /** Hidden assignment */
+   NoAssign & operator = (const NoAssign & other);
 };
 
-/// reference counted data
+/** Reference counted data
+Base class to be used with `[#RefCount]` */
 struct RefData {
+   /// Number of references to this data
    Uint ref;
+   /// Default constructor 
    RefData();
 };
 
-/// refdata with a single handle
+/** `[#RefData]` with a single handle */
 struct HRefData: RefData {
+   /// The handle
    Ptr handle;
+   /** Construct with handle
+   \param handle The handle */
    HRefData( Ptr handle );
 };
    
-/// reference counted class
+/** Reference counted class */
 class RefCount {
 protected:
-   RefCount();
+   /// Reference to the real data stored in a `[#RefData]`
    RefData * rd;
-   virtual void ref( RefData * );
+   /// Default constructor
+   RefCount();
+   /** change reference to `newRd`
+   \param newRd The new referenced data. Can be `NULL` */
+   virtual void ref( RefData * newRd );
+   /** Method called when there are no more references to the data */
    virtual void destroy();
 public:
+   /** Copy constructor
+   Increases the reference */
    RefCount( const RefCount & );
+   /** Destructor
+   Decreases the reference */
    ~RefCount();
+   /** Assignment
+   Increases the reference */
    RefCount & operator=( const RefCount & );
 };
 
