@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="part file">
+<div class="part">
+<h1>vytools.hpp</h1>
+<div class="lbr"></div>
+
+<a href="index.html">VyTools</a> is a <em>C</em> and <em>C++</em> library which
+makes often used tasks easier.
+<div class="lbr"></div>
+
+The <code>vytools.hpp</code> is for the <em>C++</em> part.
+It defines the namespace <code>vyt</code>.
+All other declarations are in that namespace.
+<div class="lbr"></div>
+
+It contains basic types,
+some utility functions, base classes for non-create,
+non-assign, referent-counted or copy-on-write classes,
+exception, a basic stream and a char- and wide string.
+</div>
+<div class="hr"></div><div class="part">
+<h2>Contents</h2><div class="br"></div><div class="part toc">
+<div class="part tocItem">
+<code><a href="#Ptr">Ptr</a></code>
+Typeless pointer
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#Uint">Uint</a></code>
+Unsigned 32-bit integer
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#Int">Int</a></code>
+Signed 32-bit integer
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#Zint">Zint</a></code>
+Unsigned 64-bit integer
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#Float">Float</a></code>
+32-bit floating point value
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#Char">Char</a></code>
+8-bit character
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#Wide">Wide</a></code>
+Unicode character
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#Tools">Tools</a></code>
+Utility functions
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#NoCreate">NoCreate</a></code>
+No-create class
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#NoAssign">NoAssign</a></code>
+No-assignment class
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#RefData">RefData</a></code>
+Reference counted data
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#HRefData:">HRefData:</a></code>
+<code><a href="#RefData">RefData</a></code> with a single handle
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#RefCount">RefCount</a></code>
+Reference counted class
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#HRefCount:">HRefCount:</a></code>
+refcounted handle
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#Cow:">Cow:</a></code>
+copy-on-write refcounted object
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#Stream:">Stream:</a></code>
+stream read or write class
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#const">const</a></code>
+multi-byte encoding
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#InFile:">InFile:</a></code>
+file reader class
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#OutFile:">OutFile:</a></code>
+file writer class
+</div>
+
+</div>
+
+</div>
+<div class="hr"></div><div class="part">
+<h2>Details</h2>
+</div>
+<div class="hr"></div><div class="part type" id="Ptr">
+<pre><code>Ptr</code></pre>
+<div class="br"></div>Typeless pointer
+interchangeable with <code><a href="C.html#VytPtr">VytPtr</a></code>
+</div>
+<div class="hr"></div><div class="part type" id="Uint">
+<pre><code>Uint</code></pre>
+<div class="br"></div>Unsigned 32-bit integer
+interchangeable with <code><a href="C.html#VytU">VytU</a></code>
+</div>
+<div class="hr"></div><div class="part type" id="Int">
+<pre><code>Int</code></pre>
+<div class="br"></div>Signed 32-bit integer
+interchangeable with <code><a href="C.html#VytI">VytI</a></code>
+</div>
+<div class="hr"></div><div class="part type" id="Zint">
+<pre><code>Zint</code></pre>
+<div class="br"></div>Unsigned 64-bit integer
+interchangeable with <code><a href="C.html#VytZ">VytZ</a></code>
+</div>
+<div class="hr"></div><div class="part type" id="Float">
+<pre><code>Float</code></pre>
+<div class="br"></div>32-bit floating point value
+interchangeable with <code><a href="C.html#VytF">VytF</a></code>
+</div>
+<div class="hr"></div><div class="part type" id="Char">
+<pre><code>Char</code></pre>
+<div class="br"></div>8-bit character
+</div>
+<div class="hr"></div><div class="part type" id="Wide">
+<pre><code>Wide</code></pre>
+<div class="br"></div>Unicode character
+</div>
+<div class="hr"></div><div class="part cls" id="Tools">
+<pre><code>struct Tools</code></pre>
+<div class="br"></div>Utility functions<div class="br"></div><div class="parts">
+<div class="part func" id="Tools.noIdx">
+<pre><code>static Exc noIdx()</code></pre>
+<div class="br"></div>Exception for index out of bounds<div class="br"></div><div class="part return">
+<code>return</code> The exception
+</div>
+
+</div>
+<div class="hr"></div><div class="part func" id="Tools.notImpl">
+<pre><code>static Exc notImpl( const char * meth )</code></pre>
+<div class="br"></div>Exception if a method is not implemented<div class="br"></div><div class="part param">
+<code>meth</code> The method name
+</div>
+<div class="br"></div><div class="part return">
+<code>return</code> The exception
+</div>
+
+</div>
+<div class="hr"></div><div class="part func" id="Tools.realloc">
+<pre><code>static Ptr realloc( Ptr old, Uint size )</code></pre>
+<div class="br"></div>Memory reallocation
+\throws <code>Exc</code> if allocation fails<div class="br"></div><div class="part param">
+<code>old</code> Previous memory address or <code>NULL</code>
+</div>
+<div class="br"></div><div class="part param">
+<code>size</code> New memory size
+</div>
+<div class="br"></div><div class="part return">
+<code>return</code> Pointer to allocated memory or <code>NULL</code> if <code>size</code> is <code>0</code>
+</div>
+
+</div>
+<div class="hr"></div><div class="part func" id="Tools.debug">
+<pre><code>static void debug(WString fmt, ... )</code></pre>
+<div class="br"></div>Write formatted string to <code>stderr</code><div class="br"></div><div class="part param">
+<code>fmt</code> Format string as in <a href="https://en.cppreference.com/w/c/io/fprintf">printf</a>
+</div>
+<div class="br"></div><div class="part param">
+<code>...</code> Arguments as in <a href="https://en.cppreference.com/w/c/io/fprintf">printf</a>
+</div>
+
+</div>
+<div class="hr"></div><div class="part func" id="Tools.stdIn">
+<pre><code>static Stream stdIn()</code></pre>
+<div class="br"></div>Standard input<div class="br"></div><div class="part return">
+<code>return</code> Stream handle
+</div>
+
+</div>
+<div class="hr"></div><div class="part func" id="Tools.stdOut">
+<pre><code>static Stream stdOut()</code></pre>
+<div class="br"></div>Standard output<div class="br"></div><div class="part return">
+<code>return</code> Stream handle
+</div>
+
+</div>
+<div class="hr"></div><div class="part func" id="Tools.stdErr">
+<pre><code>static Stream stdErr()</code></pre>
+<div class="br"></div>Standard error<div class="br"></div><div class="part return">
+<code>return</code> Stream handle
+</div>
+
+</div>
+
+</div>
+</div>
+<div class="hr"></div><div class="part cls" id="NoCreate">
+<pre><code>class NoCreate</code></pre>
+<div class="br"></div>No-create class
+(e.g singleton)<div class="br"></div><div class="parts">
+<div class="part func" id="NoCreate.NoCreate">
+<pre><code>NoCreate()</code></pre>
+<div class="br"></div>Hidden default constructor
+</div>
+
+</div>
+</div>
+<div class="hr"></div><div class="part cls" id="NoAssign">
+<pre><code>class NoAssign</code></pre>
+<div class="br"></div>No-assignment class<div class="br"></div><div class="parts">
+<div class="part func">
+<pre><code>NoAssign & operator = (const NoAssign & other);</code></pre>
+<div class="br"></div>Hidden assignment
+</div>
+
+</div>
+</div>
+<div class="hr"></div><div class="part cls" id="RefData">
+<pre><code>struct RefData</code></pre>
+<div class="br"></div>Reference counted data
+Base class to be used with <code><a href="#RefCount">RefCount</a></code><div class="br"></div><div class="parts">
+<div class="part field" id="RefData.ref">
+<code>ref</code> Number of references to this data
+</div>
+<div class="hr"></div><div class="part func" id="RefData.RefData">
+<pre><code>RefData()</code></pre>
+<div class="br"></div>Default constructor
+</div>
+
+</div>
+</div>
+<div class="hr"></div><div class="part cls" id="HRefData:">
+<pre><code>struct HRefData: RefData</code></pre>
+<div class="br"></div><code><a href="#RefData">RefData</a></code> with a single handle<div class="br"></div><div class="parts">
+<div class="part field" id="HRefData:.handle">
+<code>handle</code> The handle
+</div>
+<div class="hr"></div><div class="part func" id="HRefData:.HRefData">
+<pre><code>HRefData( Ptr handle )</code></pre>
+<div class="br"></div>Construct with handle<div class="br"></div><div class="part param">
+<code>handle</code> The handle
+</div>
+
+</div>
+
+</div>
+</div>
+<div class="hr"></div><div class="part cls" id="RefCount">
+<pre><code>class RefCount</code></pre>
+<div class="br"></div>Reference counted class<div class="br"></div><div class="parts">
+<div class="part field" id="RefCount.rd">
+<code>rd</code> Reference to the real data stored in a <code><a href="#RefData">RefData</a></code>
+</div>
+<div class="hr"></div><div class="part func" id="RefCount.RefCount">
+<pre><code>RefCount()</code></pre>
+<div class="br"></div>Default constructor
+</div>
+<div class="hr"></div><div class="part func" id="RefCount.ref">
+<pre><code>virtual void ref( RefData * newRd )</code></pre>
+<div class="br"></div>change reference to <code>newRd</code><div class="br"></div><div class="part param">
+<code>newRd</code> The new referenced data. Can be <code>NULL</code>
+</div>
+
+</div>
+<div class="hr"></div><div class="part func" id="RefCount.destroy">
+<pre><code>virtual void destroy()</code></pre>
+<div class="br"></div>Method called when there are no more references to the data
+</div>
+<div class="hr"></div><div class="part func" id="RefCount.RefCount">
+<pre><code>RefCount( const RefCount & )</code></pre>
+<div class="br"></div>Copy constructor
+Increases the reference
+</div>
+<div class="hr"></div><div class="part func" id="RefCount.~RefCount">
+<pre><code>~RefCount()</code></pre>
+<div class="br"></div>Destructor
+Decreases the reference
+</div>
+<div class="hr"></div><div class="part func">
+<pre><code>RefCount & operator=( const RefCount & );</code></pre>
+<div class="br"></div>Assignment
+Increases the reference
+</div>
+
+</div>
+</div>
+<div class="hr"></div><div class="part cls" id="HRefCount:">
+<pre><code>class HRefCount: public RefCount</code></pre>
+<div class="br"></div>refcounted handle<div class="br"></div><div class="parts">
+
+</div>
+</div>
+<div class="hr"></div><div class="part cls" id="Cow:">
+<pre><code>class Cow: public RefCount</code></pre>
+<div class="br"></div>copy-on-write refcounted object<div class="br"></div><div class="parts">
+
+</div>
+</div>
+<div class="hr"></div><div class="part cls" id="Stream:">
+<pre><code>class Stream: public RefCount</code></pre>
+<div class="br"></div>stream read or write class<div class="br"></div><div class="parts">
+<div class="part func" id="Stream:.op">
+<pre><code>virtual Uint op( Ptr data, Uint n )</code></pre>
+<div class="br"></div>read or write
+</div>
+
+</div>
+</div>
+<div class="hr"></div><div class="part field" id="const">
+<code>const</code> multi-byte encoding
+</div>
+<div class="hr"></div><div class="part cls" id="InFile:">
+<pre><code>class InFile: public Stream</code></pre>
+<div class="br"></div>file reader class<div class="br"></div><div class="parts">
+
+</div>
+</div>
+<div class="hr"></div><div class="part cls" id="OutFile:">
+<pre><code>class OutFile: public Stream</code></pre>
+<div class="br"></div>file writer class<div class="br"></div><div class="parts">
+
+</div>
+</div>
+
+</div>
+
+</body></html>
