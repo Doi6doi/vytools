@@ -36,7 +36,7 @@ char * vyt_arch_tomb( const wchar_t * ws, uint32_t * m ) {
    while ( true ) {
       char * ret = vyt_arch_grow( sz );
       *m = wcstombs( ret, ws, sz );
-      if ( (size_t)-1 == *m )
+      if ( -1 == (int)*m )
          vyt_arch_die("Could not convert string");
       if ( *m < sz ) return ret;
       sz += 256;

@@ -20,10 +20,8 @@ make {
       $plib := Cpp.libFile( $name+"p" );
       $purge := ["*"+C.objExt(), "*"+Cpp.objExt(), C.libFile("*"), "*.dep"]
          + $ccs;
-      C.set( "libMode", true );
-      Cpp.set( "libMode", true );
-      C.set( "debug", true);
-      Cpp.set( "debug", true);
+      C.set({ libMode:true, debug:true });
+      Cpp.set({ libMode:true, debug:true, show:true });
    }
 
    target {

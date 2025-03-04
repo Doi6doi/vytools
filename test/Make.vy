@@ -5,12 +5,11 @@ make {
    init {
       $cs := ["basicp.cpp"];
       $ds := [".."];
-      $ls := ["vytools"];
+      $ls := ["vytoolsp"];
       $es := changeExt( $cs, exeExt() );
-      Cpp.setIncDir( $ds );
-      Cpp.setLibDir( $ds );
-      Cpp.setLib( $ls );
-      Cpp.setDebug(true);
+      Cpp.setCompiler("clang");
+      Cpp.set( { incDir:$ds, libDir:$ds, 
+         lib:$ls, show:true,debug:true } );
    }
 
    target {

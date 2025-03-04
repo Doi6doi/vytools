@@ -23,7 +23,7 @@ public:
       size = n;
    }
    void set( Uint at, const T * ts, Uint n ) {
-      if ( size < at+n ) throw Tools::noIdx();
+      if ( size < at+n ) Tools::noIdx();
       for (Uint i=0; i<n; ++i)
          values[at+i] = ts[i];
    }
@@ -34,7 +34,7 @@ public:
 
 template <class T> class Array: public RefCount {
 protected:
-   ArrayData<T> * vref() { return (ArrayData<T> *)this.ref; }
+   ArrayData<T> * vref() { return (ArrayData<T> *)this->ref; }
 public:
    operator T*() { return vref().values; }
 };

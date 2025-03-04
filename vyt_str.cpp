@@ -132,7 +132,7 @@ bool WString::passArg( WString & fmt, va_list args, WString & dest ) {
 
 WString WString::argFmt( Wide w, va_list args ) {
    switch (w) {
-      case 's': return va_arg( args, WString );
+      case 's': return *va_arg( args, WString * );
       default: return WString( &w, 1 );
    }
 }
@@ -166,7 +166,7 @@ Uint WString::lenOf( const Wide * ws ) {
 CString WString::mb() const {
    Uint n;
    Char * ret = vyt_arch_tomb( (const Wide *)arr(), &n );
-   if ( ! ret ) throw Exc("Could not convert: '%s'", *this );
+   if ( ! ret ) throw Exc("Could not convert: '%s'", this );
    return CString( ret, n );
 }
 

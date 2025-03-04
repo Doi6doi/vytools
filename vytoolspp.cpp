@@ -1,11 +1,7 @@
 #include "vytools.hpp"
 #include <cstdlib>
-
-extern "C" {
 #include "vytools_impl.h"
-}
 
-using namespace vytc;
 namespace vyt {
 
 RefCount::RefCount() {
@@ -49,7 +45,8 @@ void Cow::write() {
 }
    
 RefData * Cow::copy( RefData * ) {
-   throw Tools::notImpl("copy");
+   Tools::notImpl("copy");
+   return NULL;
 }
 
 RefData * Cow::wref() {
@@ -59,9 +56,9 @@ RefData * Cow::wref() {
    
    
 InFile::InFile( WString path, bool part ) : part(part) {
-   Ptr fh = vyt_arch_fopen( (const Wide *)path, "r" );
+   Ptr fh = vytc::vyt_arch_fopen( (const Wide *)path, "r" );
    if ( ! fh ) 
-      throw Exc( L"Cannot read file: %s", path );
+      throw Exc( L"Cannot read file: %s", & path );
    ref( new HRefData( fh ) );
 }
 
@@ -90,9 +87,9 @@ void InFile::destroy() {
 }
 
 OutFile::OutFile( WString path ) {
-   FILE * fh = vyt_arch_fopen( path, "w" );
+   FILE * fh = vytc::vyt_arch_fopen( path, "w" );
    if ( ! fh ) 
-      throw Exc( L"Cannot write file: %s", path );
+      throw Exc( L"Cannot write file: %s", & path );
    ref( new HRefData( fh ) );
 }
 
@@ -109,12 +106,13 @@ Uint OutFile::op( Ptr data, Uint n ) {
    return fwrite( data, n, 1, (FILE *)handle() );
 }
 
-Exc Tools::notImpl( const char * meth ) {
-   return Exc( "Not implemented: %s", meth );
+void Tools::notImpl( const char * meth ) {
+   WString wmeth = meth;
+   throw Exc( "Not implemented: %s", & wmeth );
 }
 
-Exc Tools::noIdx() {
-   return Exc( "Array index out of bounds" );
+void Tools::noIdx() {
+   throw Exc( "Array index out of bounds" );
 }
 
 Ptr Tools::realloc( Ptr p, Uint size ) {
@@ -153,7 +151,8 @@ void Tools::debug( WString fmt, ... ) {
 }
 
 Uint Stream::op( Ptr data, Uint n ) {
-   throw Tools::notImpl("op");
+   Tools::notImpl("op");
+   return 0;
 }
 
 Exc::Exc() {}

@@ -54,13 +54,11 @@ class Stream;
 
 /// Utility functions
 struct Tools {
-   /** Exception for index out of bounds
-   \return The exception */
-   static Exc noIdx();
-   /** Exception if a method is not implemented
-   \param meth The method name
-   \return The exception */
-   static Exc notImpl( const char * meth );
+   /** Throws exception for index out of bounds */
+   static void noIdx();
+   /** Throws exception if a method is not implemented
+   \param meth The method name */
+   static void notImpl( const char * meth );
    /** Memory reallocation
    \param old Previous memory address or `NULL`
    \param size New memory size
@@ -229,6 +227,10 @@ public:
    Exc();
    Exc( WString fmt, ... );
 };
+
+class Excs {
+};   
+
 
 /// file reader class
 class InFile: public Stream {
