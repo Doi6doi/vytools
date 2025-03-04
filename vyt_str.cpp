@@ -3,6 +3,7 @@
 #include <cstring>
 
 using namespace vyt;
+using namespace vytc;
 
 CString::CString() {
    ref( new ArrayData<Char>(1) );

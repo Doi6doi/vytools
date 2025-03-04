@@ -13,6 +13,8 @@ It contains the same basic types with *C++*-style naming,
 some utility functions, basic types for non-create,
 non-assign, referent-counted or copy-on-write classes,
 exception, a basic stream and a char- and wide string. 
+It also includes the C library declarations and functions
+in the *vytc* namespace.
 
 For fast use, go directly to [Downloads](https://github.com/Doi6doi/vytools/releases).
 

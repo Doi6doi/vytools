@@ -1,12 +1,23 @@
 #include "vytools_impl.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <time.h>
 #include <stdbool.h>
 #include <stdlib.h>
 
+#ifdef __cplusplus
+}
+#endif
+
+VYT_NBEGIN()
+
 static char * vyaBuf = NULL;
 static uint32_t vyaBufSize = 0;
 
-void vyt_arch_die( char * msg ) {
+void vyt_arch_die( const char * msg ) {
    fprintf( stderr, "%s\n", msg );
    exit(1);
 }
@@ -43,3 +54,5 @@ uint64_t vyt_arch_stamp() {
    return (uint64_t)(ts.tv_nsec / 1000000)
       + ((uint64_t)ts.tv_sec * 1000ull);
 }
+
+VYT_NEND()

@@ -1,11 +1,18 @@
 #include "vytools.h"
+
+VYT_CBEGIN() 
+
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
 #include <stdarg.h>
 
+VYT_CEND()
+
 #include "vytools_impl.h"
+
+VYT_NBEGIN()
 
 static char * vtBuf = NULL;
 static uint32_t vtBufSize = 0;
@@ -37,7 +44,7 @@ bool vyt_nat( VytStr s, VytU * i ) {
 
 char * vyt_grow( uint32_t size ) {
    if ( vtBufSize < size ) {
-      vtBuf = vyt_realloc( vtBuf, size );
+      vtBuf = (char *)vyt_realloc( vtBuf, size );
       vtBufSize = size;
    }
    return vtBuf;
@@ -59,20 +66,20 @@ bool vyt_same( VytStr a, VytStr b ) {
    return 0 == strcmp( a, b );
 }
 
-uint32_t vyt_fread( void * stream, void * mem, uint32_t size ) {
-   return size * fread( mem, size, 1, stream );
+VytU vyt_fread( void * stream, void * mem, uint32_t size ) {
+   return size * fread( mem, size, 1, (FILE *)stream );
 }
 
 uint32_t vyt_fread_part( void * stream, void * mem, uint32_t size ) {
-   return fread( mem, 1, size, stream );
+   return fread( mem, 1, size, (FILE *)stream );
 }
 
 uint32_t vyt_fwrite( void * stream, void * mem, uint32_t size ) {
-   return size * fwrite( mem, size, 1, stream );
+   return size * fwrite( mem, size, 1, (FILE *)stream );
 }
    
 bool vyt_read_block( void * stream, VytStreamOp read, void * mem, uint32_t size ) {
-   char * p = mem;
+   char * p = (char *)mem;
    while ( 0 < size ) {
       uint32_t n = read( stream, mem, size );
       if ( 0 == n ) return false;
@@ -94,7 +101,7 @@ bool vyt_read_skip( void * stream, VytStreamOp read, uint32_t size ) {
 }
 
 bool vyt_write_block( void * stream, VytStreamOp write, void * mem, uint32_t size ) {
-   char * p = mem;
+   char * p = (char *)mem;
    while ( 0 < size ) {
       uint32_t n = write( stream, mem, size );
       if ( 0 == n ) return false;
@@ -177,3 +184,5 @@ VytU vyt_stamp_diff() {
    old = now;
    return ret;
 }   
+
+VYT_NEND()

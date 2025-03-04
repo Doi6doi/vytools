@@ -10,7 +10,11 @@ makes often used tasks easier.
 The `vytools.h` header is for the *C* part.
 It contains some fixed-size basic types,
 often used structures, basic string and stream handling
-and a resizable buffer. */
+and a resizable buffer. 
+
+If compiled with a C++ compiler, all the declarations are in 
+the `vytc` namespace
+*/
 
 /** ## Contents
 \toc */
@@ -20,6 +24,7 @@ and a resizable buffer. */
 /** macros to write extern "C" block
 \ref #define VYT_CBEGIN()
 \ref #define VYT_CEND() */
+
 #ifdef __cplusplus
 #define VYT_CBEGIN() extern "C" {
 #define VYT_CEND() }
@@ -35,6 +40,12 @@ VYT_CBEGIN()
 #include <stdio.h>
 #include <stdlib.h>
 #include "vytools_arch.h"
+
+VYT_CEND()
+
+#ifdef __cplusplus
+namespace vytc {
+#endif
 
 /// Typeless pointer
 typedef void *  VytPtr;
@@ -108,7 +119,7 @@ typedef struct Vyt_Mem * VtlMem;
 typedef VytU (* VytStreamOp)( VytStream stream, VytPtr mem, VytU size );
 
 /// `[fread](https://en.cppreference.com/w/c/io/fread)` as `VytStreamOp`
-VytU vyt_fread( VytStream stream, void VytPtr mem, VytU size );
+VytU vyt_fread( VytStream stream, VytPtr mem, VytU size );
 /// `[fread](https://en.cppreference.com/w/c/io/fread)` as `VytStreamOp`, can read less than full block
 VytU vyt_fread_part( VytStream stream, VytPtr mem, VytU size );
 /// `[fwrite](https://en.cppreference.com/w/c/io/fwrite)` as `VytStreamOp`
@@ -175,6 +186,7 @@ VytU vyt_stamp_diff();
 \return Handle to memory */
 VtlMem vyt_mem_create( VytU size );
 
+
 /** free resizable memory
 \param m Handle to memory */
 void vyt_mem_free( VtlMem m );
@@ -195,6 +207,9 @@ VytPtr vyt_mem_address( VtlMem m );
 \return Current size of memory */
 VytU vyt_mem_size( VtlMem m );
 
-VYT_CEND()
+#ifdef __cplusplus
+}
+#endif
+
 
 #endif // VULTOOLSH
