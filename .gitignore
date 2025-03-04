@@ -2,6 +2,7 @@ Makefile
 vultools.o
 libvytools.so
 libvytoolsp.so
+p_*.cpp
 /*.obj
 /*.dll
 /*.o
