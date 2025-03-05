@@ -12,6 +12,9 @@ protected:
    T * values;
 public:
    ArrayData() : size(0), values(NULL) {}
+   ArrayData( const ArrayData<T> & a ) : ArrayData( a.size ) {
+      set( 0, a.values, a.size );
+   }
    ArrayData( Uint n ) : ArrayData() { resize(n); }
    ~ArrayData() { resize(0); }
    void checkIdx( Uint i ) const {

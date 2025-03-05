@@ -92,13 +92,18 @@ protected:
 /** No-assignment class */
 class NoAssign {
 protected:   
+   /** Hidden copy constructor */
+   NoAssign( const NoAssign & );
    /** Hidden assignment */
    NoAssign & operator = (const NoAssign & other);
+public:
+   NoAssign() {}
 };
 
 /** Reference counted data
 Base class to be used with `[#RefCount]` */
-struct RefData {
+struct RefData: public NoAssign {
+public:
    /// Number of references to this data
    Uint ref;
    /// Default constructor 
@@ -131,7 +136,7 @@ public:
 /// copy-on-write refcounted object
 class Cow: public RefCount {
 protected:
-   RefData * copy( RefData * );
+   virtual RefData * copy( RefData * );
    RefData * wref();
 };
  
@@ -143,6 +148,7 @@ namespace vyt {
 
 class CString: public Cow {
 protected:
+   RefData * copy( RefData * );
    ArrayData<Char> & warr();
    const ArrayData<Char> & arr() const;
    void append( const Char *, Uint n );   
@@ -173,6 +179,7 @@ public:
 
 class WString: public Cow  {
 protected:
+   RefData * copy( RefData * );
    ArrayData<Wide> & warr();
    const ArrayData<Wide> & arr() const;
    void append( const Wide *, Uint );
@@ -213,7 +220,7 @@ protected:
 public:
    Exc();
    Exc( WString fmt, ... );
-   WString message();
+   WString message() const;
 };
 
 class Excs {

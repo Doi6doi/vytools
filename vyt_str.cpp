@@ -20,6 +20,10 @@ CString::CString( const Char * cs, Uint n ) : CString() {
    append( cs, n );
 }
 
+RefData * CString::copy( RefData * old ) {
+   return new ArrayData<Char>( *dynamic_cast<ArrayData<Char>*>(old) );
+}
+
 const ArrayData<Char> & CString::arr() const {
    return *dynamic_cast<ArrayData<Char> *>(rd);
 }
@@ -111,7 +115,8 @@ CString CString::format( CString fmt, ... ) {
 
 CString CString::argFmt( Char c, va_list args ) {
    switch (c) {
-      case 't': return CString( *va_arg( args, CString * ) );
+      case 't': return *va_arg( args, CString * );
+      case 'w': return va_arg( args, WString * )->mb();
       default: return CString( "%" )+CString(&c,1);
    }
 }
@@ -161,6 +166,11 @@ WString::WString( const Wide * ws, Uint n ) : WString() {
    if ( 0 == n ) n = WString::lenOf( ws );
    append( ws, n );
 }
+
+RefData * WString::copy( RefData * old ) {
+   return new ArrayData<Wide>( *dynamic_cast<ArrayData<Wide>*>(old) );
+}
+
 
 void WString::clear() {
    ArrayData<Wide> & a = warr();
@@ -244,7 +254,6 @@ bool WString::passArg( WString & fmt, va_list args, WString & dest ) {
 }
 
 WString WString::argFmt( Wide w, va_list args ) {
-fprintf( stderr, "argFmt %c\n", (Char)w );   
    switch (w) {
       case 't': return WString( *va_arg( args, CString * ) );
       case 'w': return *va_arg( args, WString * );
@@ -286,7 +295,6 @@ Uint WString::lenOf( const Wide * ws ) {
 CString WString::mb() const {
    Uint n;
    const Wide * a = (const Wide *)arr();
-fprintf( stderr, "mb a:%p a0:%d\n", a, (int)*a );
    Char * ret = vyt_arch_tomb( a, &n );
    if ( ! ret ) throw Exc("Could not convert: '%w'", this );
    return CString( ret, n );

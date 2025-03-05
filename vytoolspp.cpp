@@ -7,6 +7,15 @@ using namespace vytc;
 
 namespace vyt {
 
+NoAssign::NoAssign( const NoAssign & ) {
+   Tools::notImpl( "NoAssign" );
+}
+   
+NoAssign & NoAssign::operator = (const NoAssign & ) {
+   Tools::notImpl( "operator =" );
+}
+
+
 Uint StreamData::op( Ptr data, Uint n ) {
    Tools::notImpl( "op" );
    return 0;
@@ -135,7 +144,7 @@ Exc::Exc( WString fmt, ... ) {
    va_end( args );
 }
 
-WString Exc::message() {
+WString Exc::message() const {
    return msg;
 }
  
