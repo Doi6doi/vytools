@@ -9,7 +9,7 @@ make {
       $es := changeExt( $cs, exeExt() );
       Cpp.setCompiler("clang");
       Cpp.set( { incDir:$ds, libDir:$ds, 
-         lib:$ls, show:true,debug:true } );
+         lib:$ls, debug:true, earg:"-fsanitize=address" } );
    }
 
    target {

@@ -1,14 +1,20 @@
 
 #include "vytools.hpp"
 
+#include <cstdio>
+#include <clocale>
+
 using namespace vyt;
 
 int main() {
-   WString a = "Hello";
-   CString b = "world";
-   WString wb(b);
-   a = WString::format( "%s, %s!", &a, &wb );
-   CString c = a.mb();
-   Tools::stdOut().op( (Char *)c, c.len() );
+   auto so  = Tools::stdOut();
+   CString a("Hello");
+   CString b("World");
+   CString c = CString::format( "%t, %t!\n", &a, &b );
+   c.stream( so );
+   CString d("Hello");
+   WString e(L"World");
+   WString f = WString::format( L"%t, %w!\n", &d, &e );
+   f.mb().stream( so );
    return 0;
 }

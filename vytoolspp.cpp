@@ -1,14 +1,36 @@
 #include "vytools.hpp"
+#include "vytools.h"
 #include <cstdlib>
 #include "vytools_impl.h"
 
+using namespace vytc;
+
 namespace vyt {
+
+Uint StreamData::op( Ptr data, Uint n ) {
+   Tools::notImpl( "op" );
+   return 0;
+}
+
+struct HStreamData: StreamData {
+   Ptr handle;
+   VytStreamOp sop;
+   HStreamData( Ptr handle, VytStreamOp sop );
+   Uint op( Ptr data, Uint n );
+};
+
+HStreamData::HStreamData( Ptr handle, VytStreamOp sop )
+: handle(handle), sop(sop) { }
+
+Uint HStreamData::op( Ptr data, Uint n ) {
+   return sop( handle, data, n );
+}
 
 RefCount::RefCount() {
    rd = NULL;
 };
 
-RefCount::RefCount( const RefCount & other ) {
+RefCount::RefCount( const RefCount & other ) : RefCount() {
    ref( other.rd );
 }
 
@@ -22,93 +44,38 @@ RefCount::~RefCount() {
    ref( NULL );
 }
 
-void RefCount::destroy() {
-   delete rd;
-   rd = NULL;
-}
-
 void RefCount::ref( RefData * nrd ) {
    if ( rd ) {
       if ( ! rd->ref )
          throw new Exc("RefCount mismatch");
-      if ( ! --rd->ref )
-         destroy();
+      if ( ! --rd->ref ) {
+         delete rd;
+         rd = NULL;
+      }
    }
    if (( rd = nrd ))
       ++ rd->ref;
 }
 
 
-void Cow::write() {
-   if ( 1 >= rd->ref ) return;
-   ref( copy( rd ) );
-}
-   
 RefData * Cow::copy( RefData * ) {
    Tools::notImpl("copy");
    return NULL;
 }
 
 RefData * Cow::wref() {
-   write();
+   if ( 1 < rd->ref )
+      ref( copy( rd ));
    return rd;
 }
-   
-   
-InFile::InFile( WString path, bool part ) : part(part) {
-   Ptr fh = vytc::vyt_arch_fopen( (const Wide *)path, "r" );
-   if ( ! fh ) 
-      throw Exc( L"Cannot read file: %s", & path );
-   ref( new HRefData( fh ) );
-}
-
-
-InFile::InFile( Ptr handle, bool part ) : part(part) {
-   ref( new HRefData( handle ) );
-}
-
-Uint InFile::op( Ptr data, Uint n ) {
-   if (part) 
-      return fread( data, 1, n, (FILE *)handle() );
-      else return fread( data, n, 1, (FILE *)handle() );
-}
-
-Ptr InFile::handle() { 
-   return ((HRefData*)rd)->handle;
-}
-
+      
 RefData::RefData() : ref(0) {}
 
-HRefData::HRefData( Ptr handle ) : handle(handle) {}
-
-void InFile::destroy() {
-   fclose( (FILE *)handle() );
-   Stream::destroy();
-}
-
-OutFile::OutFile( WString path ) {
-   FILE * fh = vytc::vyt_arch_fopen( path, "w" );
-   if ( ! fh ) 
-      throw Exc( L"Cannot write file: %s", & path );
-   ref( new HRefData( fh ) );
-}
-
-void OutFile::destroy() {
-   fclose( (FILE *)handle() );
-   Stream::destroy();
-}
-
-Ptr OutFile::handle() { 
-   return ((HRefData*)rd)->handle;
-}
-
-Uint OutFile::op( Ptr data, Uint n ) {
-   return fwrite( data, n, 1, (FILE *)handle() );
-}
+RefData::~RefData() { }
 
 void Tools::notImpl( const char * meth ) {
    WString wmeth = meth;
-   throw Exc( "Not implemented: %s", & wmeth );
+   throw Exc( "Not implemented: %w", & wmeth );
 }
 
 void Tools::noIdx() {
@@ -116,28 +83,27 @@ void Tools::noIdx() {
 }
 
 Ptr Tools::realloc( Ptr p, Uint size ) {
-   Ptr ret = ::realloc( p, size );
+   Ptr ret = NULL;
+   if ( p || size )
+      ret = ::realloc( p, size );
    if ( size && ! ret )
       throw Exc("Could not allocate memory");
    return ret;
 }  
  
 Stream Tools::stdErr() {
-   static Stream * ret = NULL;
-   if ( ! ret ) ret = new InFile( stderr, true );
-   return *ret;
+   static Stream ret( *new HStreamData( stderr, vytc::vyt_fwrite ) );
+   return ret;
 }
 
 Stream Tools::stdIn() {
-   static Stream * ret = NULL;
-   if ( ! ret ) ret = new InFile( stdin, true );
-   return *ret;
+   static Stream ret( *new HStreamData( stdin, vytc::vyt_fread ));
+   return ret;
 }
 
 Stream Tools::stdOut() {
-   static Stream * ret = NULL;
-   if ( ! ret ) ret = new InFile( stdout, true );
-   return *ret;
+   static Stream ret( * new HStreamData( stdout, vytc::vyt_fwrite ) );
+   return ret;
 }
 
 void Tools::debug( WString fmt, ... ) {
@@ -151,9 +117,13 @@ void Tools::debug( WString fmt, ... ) {
 }
 
 Uint Stream::op( Ptr data, Uint n ) {
-   Tools::notImpl("op");
-   return 0;
+   return dynamic_cast<StreamData *>(rd)->op( data, n );
 }
+
+Stream::Stream( StreamData & data ) {
+   ref( & data );
+}
+
 
 Exc::Exc() {}
 
@@ -163,6 +133,10 @@ Exc::Exc( WString fmt, ... ) {
    va_start( args, fmt );
    while ( WString::passArg( fmt, args, msg ) );
    va_end( args );
+}
+
+WString Exc::message() {
+   return msg;
 }
  
 }

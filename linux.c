@@ -32,6 +32,7 @@ char * vyt_arch_grow( uint32_t size ) {
 }
 
 char * vyt_arch_tomb( const wchar_t * ws, uint32_t * m ) {
+fprintf( stderr, "atomb ws:%p ws0:%d\n", ws, (int)*ws );   
    uint32_t sz = wcslen( ws )*2;
    while ( true ) {
       char * ret = vyt_arch_grow( sz );

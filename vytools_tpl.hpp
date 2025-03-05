@@ -14,6 +14,9 @@ public:
    ArrayData() : size(0), values(NULL) {}
    ArrayData( Uint n ) : ArrayData() { resize(n); }
    ~ArrayData() { resize(0); }
+   void checkIdx( Uint i ) const {
+      if ( size <= i ) Tools::noIdx();
+   }
    void resize( Uint n ) {
       if ( n == size ) return;
       for (Uint i=n; i<size; ++i) (values+i)->~T();
@@ -23,7 +26,7 @@ public:
       size = n;
    }
    void set( Uint at, const T * ts, Uint n ) {
-      if ( size < at+n ) Tools::noIdx();
+      if ( n ) checkIdx( at+n-1 );
       for (Uint i=0; i<n; ++i)
          values[at+i] = ts[i];
    }

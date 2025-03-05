@@ -47,6 +47,7 @@ typedef char Char;
 /// Unicode character
 typedef wchar_t Wide;
 
+
 class CString;
 class WString;
 class Exc;
@@ -102,15 +103,8 @@ struct RefData {
    Uint ref;
    /// Default constructor 
    RefData();
-};
-
-/** `[#RefData]` with a single handle */
-struct HRefData: RefData {
-   /// The handle
-   Ptr handle;
-   /** Construct with handle
-   \param handle The handle */
-   HRefData( Ptr handle );
+   /// Virtual destructor
+   virtual ~RefData();
 };
    
 /** Reference counted class */
@@ -120,45 +114,27 @@ protected:
    RefData * rd;
    /// Default constructor
    RefCount();
-   /** change reference to `newRd`
-   \param newRd The new referenced data. Can be `NULL` */
-   virtual void ref( RefData * newRd );
-   /** Method called when there are no more references to the data */
-   virtual void destroy();
-public:
-   /** Copy constructor
-   Increases the reference */
+   /** Copy constructor */
    RefCount( const RefCount & );
-   /** Destructor
-   Decreases the reference */
-   ~RefCount();
    /** Assignment
    Increases the reference */
    RefCount & operator=( const RefCount & );
-};
-
-/// refcounted handle
-class HRefCount: public RefCount {
-protected:
-   Ptr handle();
+   /** change reference to `newRd`
+   \param newRd The new referenced data. Can be `NULL` */
+   virtual void ref( RefData * newRd );
+public:
+   /** Destructor
+   Decreases the reference */
+   ~RefCount();
 };
 
 /// copy-on-write refcounted object
 class Cow: public RefCount {
 protected:
-   void write();
    RefData * copy( RefData * );
    RefData * wref();
 };
-  
-  
-/// stream read or write class
-class Stream: public RefCount {
-public:
-   /// read or write 
-   virtual Uint op( Ptr data, Uint n );
-};
-
+ 
 }
 
 #include "vytools_tpl.hpp"
@@ -173,16 +149,27 @@ protected:
    void clear();
 public:
    CString();
+   CString( const CString & );
    CString( const Char *, Uint n = 0 );
    operator const Char *() const;
    operator Char *();
+   const Char & operator[]( Uint ) const;
+   Char & operator[]( Uint );
+   CString & operator =( const CString & );
+   CString & operator +=( const CString & );
+   CString operator+( const CString & );
+   bool operator !() const;
    Uint len() const;
+   bool find( Char, Uint & ) const;
+   CString sub(Uint at, Uint n=0) const;
+   Uint stream( Stream s );
 public:
    static Uint lenOf( const Char * );   
    static CString format( CString fmt, ... );   
    static bool passArg( CString & fmt, va_list, CString & dest );
    static CString argFmt( Char, va_list ); 
 };
+
 
 class WString: public Cow  {
 protected:
@@ -193,21 +180,25 @@ protected:
    void clear();
 public:
    WString();
+   WString( const WString & );
+   WString( const CString & );
    WString( const Wide *, Uint n = 0 );
    WString( const Char *, Uint n = 0 );
    operator const Wide *() const;
+   operator Wide *();
+   WString & operator =( const WString & );
    WString & operator +=( const WString & );
-   WString & operator +=( const CString & );
-   WString & operator +=( const Char * );
-   WString & operator +=( const Wide * );
-   WString & operator =( const CString & );
-   WString & operator =( const Char * );
-   WString & operator =( const Wide * );
+   WString operator+( const WString & b );
+   bool operator !() const;
+   const Wide & operator[]( Uint ) const;
+   Wide & operator[]( Uint );
    Uint len() const;
    bool find( Wide, Uint & ) const;
    WString sub(Uint at, Uint n=0) const;
    /// multi-byte encoding
    CString mb() const;
+   /// read or write to string
+   Uint stream( Stream s );
 public:
    static Uint lenOf( const Wide * );   
    static WString format( WString fmt, ... );   
@@ -215,10 +206,6 @@ public:
    static WString argFmt( Wide, va_list ); 
 };
 
-template<class T> WString operator+( const WString &a, const T & b ) {
-   WString ret(a); return ret += b; }
-template<class T> WString operator+( const WString &a, const T * b ) {
-   WString ret(a); return ret += b; }
 
 class Exc {
 protected:
@@ -226,33 +213,34 @@ protected:
 public:
    Exc();
    Exc( WString fmt, ... );
+   WString message();
 };
 
 class Excs {
 };   
 
-
-/// file reader class
-class InFile: public Stream {
-protected:
-   bool part;
-   void destroy();
-public:   
-   InFile( WString, bool part=false );
-   InFile( Ptr, bool part=false );
-   Ptr handle();
-   Uint op( Ptr data, Uint n );
+/// stored data of a stream
+struct StreamData: public RefData {
+   virtual Uint op( Ptr data, Uint n );
 };
 
-/// file writer class
-class OutFile: public Stream {
-protected:
-   void destroy();
-public:   
-   OutFile( WString );
-   OutFile( Ptr );
-   Ptr handle();
+/// stream read or write class
+class Stream: public RefCount {
+public:
+   /** Construct with handle and operation
+   \param data The stream data */
+   Stream( StreamData & data );
+   /// read or write 
    Uint op( Ptr data, Uint n );
+   Stream & operator =( const Stream & );
+};
+
+enum class FileMode { READ, READPART, WRITE };
+
+/// file manipulator class
+class File {
+public:
+   static Stream open( WString path, FileMode );
 };
 
 }

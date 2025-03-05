@@ -21,7 +21,7 @@ make {
       $purge := ["*"+C.objExt(), "*"+Cpp.objExt(), C.libFile("*"), "*.dep"]
          + $ccs;
       C.set({ libMode:true, debug:true });
-      Cpp.set({ libMode:true, debug:true, show:true });
+      Cpp.set({ libMode:true, debug:true });
    }
 
    target {
