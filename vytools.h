@@ -68,8 +68,34 @@ typedef struct Vyt_##t##Vec2 { \
    Vyt##t y; /** Y coordinate */ \
 } * Vyt##t##Vec2;
 
+VYT_VEC2( I )
 VYT_VEC2( U )
+VYT_VEC2( F )
 
+/** vector addition
+\ref struct Vyt_?Vec2 vyt_?v2_add( Vyt?Vec2 a, Vyt?Vec2 b )
+\param a First vector
+\param b Second vector
+\return Result vector */
+#define VYT_V2ADD( t ) \
+struct Vyt_##t##Vec2 vyt_##t##v2_add( Vyt##t##Vec2 a, Vyt##t##Vec2 b )
+
+VYT_V2ADD( I );
+VYT_V2ADD( U );
+VYT_V2ADD( F );
+
+/** vector subtraction
+\ref struct Vyt_?Vec2 vyt_?v2_sub( Vyt?Vec2 a, Vyt?Vec2 b )
+\param a First vector
+\param b Second vector
+\return Result vector */
+#define VYT_V2SUB( t ) \
+struct Vyt_##t##Vec2 vyt_##t##v2_sub( Vyt##t##Vec2 a, Vyt##t##Vec2 b )
+
+VYT_V2SUB( I );
+VYT_V2SUB( U );
+VYT_V2SUB( F );
+    
 /** Rectangle
 \ref struct Vyt?Rect { */
 #define VYT_RECT( t ) \
@@ -80,7 +106,9 @@ typedef struct Vyt_##t##Rect { \
    Vyt##t height; /** Height */ \
 } * Vyt##t##Rect;
 
+VYT_RECT( I )
 VYT_RECT( U )
+VYT_RECT( F )
 
 /** 2d transformation matrix
 \ref struct Vyt?Trans2 { */
@@ -96,17 +124,21 @@ typedef struct Vyt_##t##Trans2 { \
 
 VYT_TRANS2( F )
 
-// point cloud
-typedef struct Vyt_Cloud {
-   VytU weight; // number of points 
-   float mx; // weight point x coordinate
-   float my; // weight point y coordinate
-   float dx; // avergae direction x coordinate
-   float dy; // avergae direction y coordinate
-} * VtlCloud;
-
 /// Any stream type
 typedef VytPtr VytStream;
+
+/// (re)allocate memory in current frame
+VytPtr vyt_alloc( VytPtr old, VytU size );
+
+/// open new frame or close current
+/// if called with true, creates a new frame to remember allocations
+/// if called with false, frees all vyt_alloc-ed memory in the frame
+/// and destroys frame itself
+void vyt_frame( bool openNew );
+
+/// raises allocation of memory to previous frame
+/// dies if there is no previous frame
+VytPtr vyt_raise( VytPtr );
 
 /// Resizable allocated memory
 typedef struct Vyt_Mem * VtlMem;
@@ -124,6 +156,10 @@ VytU vyt_fread( VytStream stream, VytPtr mem, VytU size );
 VytU vyt_fread_part( VytStream stream, VytPtr mem, VytU size );
 /// `[fwrite](https://en.cppreference.com/w/c/io/fwrite)` as `VytStreamOp`
 VytU vyt_fwrite( VytStream stream, VytPtr mem, VytU size );
+/// memory copy from (VytPtr *)stream to mem
+VytU vyt_mread( VytStream stream, VytPtr mem, VytU size );
+/// memory copy form mem to (VytPtr *)stream
+VytU vyt_mwrite( VytStream stream, VytPtr mem, VytU size );
 
 /** write or read a complete block using `VytStreamOp`.
 Keeps calling `op` until `size` is reached or `0` is returned
@@ -181,31 +217,6 @@ VytZ vyt_stamp();
 /// milliseconds passed since last call to `vyt_stamp_diff`
 VytU vyt_stamp_diff();
 
-/** allocate resizable memory
-\param size Memory size in bytes
-\return Handle to memory */
-VtlMem vyt_mem_create( VytU size );
-
-
-/** free resizable memory
-\param m Handle to memory */
-void vyt_mem_free( VtlMem m );
-
-/** resize resizable memory
-\param m Handle to memory
-\param size New size in bytes
-\return `true` if succeeded */
-bool vyt_mem_resize( VtlMem m, VytU size );
-
-/** allocated resizable memory address
-\param m Handle to memory
-\return Pointer to allocated memory */
-VytPtr vyt_mem_address( VtlMem m );
-
-/** resizable memory current size
-\param m Handle to memory
-\return Current size of memory */
-VytU vyt_mem_size( VtlMem m );
 
 #ifdef __cplusplus
 }

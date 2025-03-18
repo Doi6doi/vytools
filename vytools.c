@@ -14,13 +14,39 @@ VYT_CEND()
 
 VYT_NBEGIN()
 
+#define FRAMESTEP 64
+
 static char * vtBuf = NULL;
 static uint32_t vtBufSize = 0;
 
-struct Vyt_Mem {
+typedef struct Vyt_Frame {
+   struct Vyt_Frame * prev;
    uint32_t size;
-   void * ptr;
-};
+   uint32_t count;
+   VytPtr * ptrs;
+} * VytFrame;
+   
+static VytFrame frame = NULL;
+   
+#define VYT_V2ADDB( t ) \
+VYT_V2ADD( t ) { \
+   struct Vyt_##t##Vec2 ret = { .x = a->x + b->x, .y = a->y + b->y }; \
+   return ret; \
+}
+
+VYT_V2ADDB( I )
+VYT_V2ADDB( U )
+VYT_V2ADDB( F )
+
+#define VYT_V2SUBB( t ) \
+VYT_V2SUB( t ) { \
+   struct Vyt_##t##Vec2 ret = { .x = a->x - b->x, .y = a->y - b->y }; \
+   return ret; \
+}
+
+VYT_V2SUBB( I )
+VYT_V2SUBB( U )
+VYT_V2SUBB( F )
 
 void * vyt_realloc( void * old, size_t size ) {
    void * p = realloc( old, size );
@@ -77,14 +103,15 @@ uint32_t vyt_fread_part( void * stream, void * mem, uint32_t size ) {
 uint32_t vyt_fwrite( void * stream, void * mem, uint32_t size ) {
    return size * fwrite( mem, size, 1, (FILE *)stream );
 }
-   
-bool vyt_read_block( void * stream, VytStreamOp read, void * mem, uint32_t size ) {
+
+ 
+bool vyt_block_op( void * stream, VytStreamOp op, void * mem, uint32_t size ) {
    char * p = (char *)mem;
    while ( 0 < size ) {
-      uint32_t n = read( stream, mem, size );
+      uint32_t n = op( stream, mem, size );
       if ( 0 == n ) return false;
       p += n;
-      size -=n;
+      size -= n;
    }
    return true;
 }
@@ -100,19 +127,6 @@ bool vyt_read_skip( void * stream, VytStreamOp read, uint32_t size ) {
    return true;
 }
 
-bool vyt_write_block( void * stream, VytStreamOp write, void * mem, uint32_t size ) {
-   char * p = (char *)mem;
-   while ( 0 < size ) {
-      uint32_t n = write( stream, mem, size );
-      if ( 0 == n ) return false;
-      p += n;
-      size -= n;
-   }
-   return true;
-}
-
-
-
 /// átfedő intervallumok
 /*static bool vtl_iv_overlap( int32_t a, uint32_t al, int32_t b, uint32_t bl ) {
    return (a <= b && b < a+al)
@@ -126,35 +140,6 @@ bool vyt_write_block( void * stream, VytStreamOp write, void * mem, uint32_t siz
 }
 */
 
-/// lefoglalt memória címe
-void * vyt_mem_address( VtlMem m ) {
-   if ( ! m ) return NULL;
-   return m->ptr;
-}
-     
-VtlMem vyt_mem_create( uint32_t size ) {
-   VtlMem ret = REALLOC( NULL, struct Vyt_Mem, 1 );
-   if ( ! ret ) return NULL;
-   ret->size = size;
-   ret->ptr = REALLOC( NULL, char, size );
-   if ( size && ! ret->ptr )
-      ret = REALLOC( ret, struct Vyt_Mem, 0 );
-   return ret;
-}
-
-void vyt_mem_free( VtlMem m ) {
-   if ( ! m ) return;
-   vyt_mem_resize( m, 0 );
-   m = REALLOC( m, struct Vyt_Mem, 0 );
-}
-
-bool vyt_mem_resize( VtlMem m, uint32_t size ) {
-   void * ptr = REALLOC( m->ptr, char, size );
-   if ( size && ! ptr ) return false;
-   m->ptr = ptr;
-   m->size = size;
-   return true;
-}
 
 VytStr vyt_sprintf( VytStr fmt, ... ) {
    va_list args;
@@ -184,5 +169,70 @@ VytU vyt_stamp_diff() {
    old = now;
    return ret;
 }   
+
+void vyt_frame( bool openNew ) {
+   if ( openNew ) {
+      VytFrame ret = (VytFrame)realloc( NULL, sizeof( struct Vyt_Frame ));
+      if ( ! ret )
+         vyt_die("Could not allocate new frame");
+      ret->prev = frame;
+      ret->size = 0;
+      ret->count = 0;
+      ret->ptrs = NULL;
+      frame = ret;
+   } else {
+      if ( ! frame )
+         vyt_die("No frame to pop");
+      for (int i=0; i<frame->count; ++i) 
+         realloc( frame->ptrs[i], 0 );
+      realloc( frame->ptrs, 0 );
+      VytFrame old = frame;
+      frame = frame->prev;
+      realloc( old, 0 );
+   }
+}
+
+VytPtr vyt_alloc( VytPtr old, VytU size ) {
+   if ( ! ( old || size ))
+      return NULL;
+   VytPtr ret = realloc( old, size );
+   if ( size && ! ret )
+      vyt_die("Could not allocate memory");
+   if ( ! frame ) return ret;
+   if ( old ) {
+      for ( int i=0; i<frame->count; ++i) {
+         if ( frame->ptrs[i] == old ) {
+            if ( ret ) {
+               frame->ptrs[i] = ret;
+            } else {
+               frame->ptrs[i] = frame->ptrs[frame->count-1];
+               --frame->count;
+            }
+         }
+      }
+   } else if ( ret ) {
+      if ( frame->count == frame->size ) {
+         frame->size += FRAMESTEP;
+         if ( ! ( frame->ptrs = (VytPtr *)realloc( 
+               frame->ptrs, frame->size * sizeof( VytPtr ))))
+            vyt_die("Could not allocate memory");
+      }
+      frame->ptrs[frame->count] = ret;
+      ++frame->count;
+   }
+   return ret;
+}
+
+VytU vyt_mread( VytStream stream, VytPtr mem, VytU size ) {
+   memcpy( mem, *(VytPtr *)stream, size );
+   return size;
+}
+
+
+VytU vyt_mwrite( VytStream stream, VytPtr mem, VytU size ) {
+   memcpy( *(VytPtr *)stream, mem, size );
+   return size;
+}
+
 
 VYT_NEND()
