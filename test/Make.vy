@@ -1,14 +1,12 @@
 make {
 
-   import { Cpp; }
- 
    init {
       $cs := ["basicp.cpp"];
       $ds := [".."];
       $ls := ["vytoolsp"];
       $es := changeExt( $cs, exeExt() );
-      Cpp.setCompiler("clang");
-      Cpp.set( { incDir:$ds, libDir:$ds, 
+
+      $Cpp := tool("Cpp",{ incDir:$ds, libDir:$ds, 
          lib:$ls, debug:true, earg:"-fsanitize=address" } );
    }
 
@@ -25,7 +23,7 @@ make {
          foreach ( c | $cs ) {
             e := changeExt( c, exeExt() );
             if ( older( e, c ))
-               Cpp.build( e, c );
+               $Cpp.build( e, c );
          }
       }
          
