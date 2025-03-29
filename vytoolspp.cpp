@@ -13,6 +13,7 @@ NoAssign::NoAssign( const NoAssign & ) {
    
 NoAssign & NoAssign::operator = (const NoAssign & ) {
    Tools::notImpl( "operator =" );
+   return *this;
 }
 
 

@@ -1,10 +1,14 @@
 make {
 
-   import { C; Cpp; Git; }
-
    init {
       $name := "vytools";
       $url := "https://github.com/Doi6doi/vytools.git";
+      $ver := "20250329";
+      
+      $C := tool( "C", { libMode:true, debug:true });
+      $Cpp := tool( "Cpp", { libMode:true, debug:true });
+      $Git := tool( "Git" );
+      
       $cdep := "c.dep";
       $pdep := "p.dep";
       $cs := ["vytools.c"];
@@ -16,12 +20,10 @@ make {
          "Windows": $cs += "windows.c";
       }
       $ccs := regexp( $cs, "#(.*)\\.c#", "p_\\1.cpp" );
-      $lib := C.libFile( $name );
-      $plib := Cpp.libFile( $name+"p" );
-      $purge := ["*"+C.objExt(), "*"+Cpp.objExt(), C.libFile("*"), "*.dep"]
+      $lib := $C.libFile( $name );
+      $plib := $Cpp.libFile( $name+"p" );
+      $purge := ["*"+$C.objExt(), "*"+$Cpp.objExt(), $C.libFile("*"), "*.dep"]
          + $ccs;
-      C.set({ libMode:true, debug:true });
-      Cpp.set({ libMode:true, debug:true });
    }
 
    target {
@@ -38,7 +40,7 @@ make {
 
       /// download the project
       download {
-         Git.clone( $url );
+         $Git.clone( $url );
       }
 
       /// build project
@@ -83,35 +85,35 @@ make {
       /// generate dependency files
       genDep() {
          if ( older( $cdep, $cs+$hs ) )
-            C.depend( $cdep, $cs );
+            $C.depend( $cdep, $cs );
          if ( older( $pdep, $ccs+$cps+$hs+$hps ) )
-            Cpp.depend( $pdep, $ccs+$cps );
+            $Cpp.depend( $pdep, $ccs+$cps );
       }
 
       /// generate object files
       genObjs() {
-         ds := C.loadDep( $cdep );
+         ds := $C.loadDep( $cdep );
          foreach ( c | $cs ) {
-            o := changeExt( c, C.objExt() );
+            o := changeExt( c, $C.objExt() );
             if ( older( o, ds[o] ))
-               C.compile( o, c );
+               $C.compile( o, c );
          }
-         ds := Cpp.loadDep( $pdep );
+         ds := $Cpp.loadDep( $pdep );
          foreach ( c | $ccs + $cps ) {
-            o := changeExt( c, Cpp.objExt() );
+            o := changeExt( c, $Cpp.objExt() );
             if ( older( o, ds[o] ))
-               Cpp.compile( o, c );
+               $Cpp.compile( o, c );
          }
       }
 
       /// generate library
       genLib() {
-         os := changeExt( $cs, C.objExt() );
+         os := changeExt( $cs, $C.objExt() );
          if ( older( $lib, os ))
-            C.link( $lib, os );
-         pos := changeExt( $cps+$ccs, Cpp.objExt() );
+            $C.link( $lib, os );
+         pos := changeExt( $cps+$ccs, $Cpp.objExt() );
          if ( older( $plib, pos ))
-            Cpp.link( $plib, pos );
+            $Cpp.link( $plib, pos );
       }
 
    }

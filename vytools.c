@@ -184,11 +184,11 @@ void vyt_frame( bool openNew ) {
       if ( ! frame )
          vyt_die("No frame to pop");
       for (int i=0; i<frame->count; ++i) 
-         realloc( frame->ptrs[i], 0 );
-      realloc( frame->ptrs, 0 );
+         frame->ptrs[i] = realloc( frame->ptrs[i], 0 );
+      frame->ptrs = (VytPtr *)realloc( frame->ptrs, 0 );
       VytFrame old = frame;
       frame = frame->prev;
-      realloc( old, 0 );
+      old = (VytFrame)realloc( old, 0 );
    }
 }
 
