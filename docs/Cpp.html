@@ -69,40 +69,36 @@ No-create class
 No-assignment class
 </div>
 <div class="br"></div><div class="part tocItem">
-<code><a href="#RefData">RefData</a></code>
+<code><a href="#RefData:">RefData:</a></code>
 Reference counted data
-</div>
-<div class="br"></div><div class="part tocItem">
-<code><a href="#HRefData:">HRefData:</a></code>
-<code><a href="#RefData">RefData</a></code> with a single handle
 </div>
 <div class="br"></div><div class="part tocItem">
 <code><a href="#RefCount">RefCount</a></code>
 Reference counted class
 </div>
 <div class="br"></div><div class="part tocItem">
-<code><a href="#HRefCount:">HRefCount:</a></code>
-refcounted handle
-</div>
-<div class="br"></div><div class="part tocItem">
 <code><a href="#Cow:">Cow:</a></code>
 copy-on-write refcounted object
-</div>
-<div class="br"></div><div class="part tocItem">
-<code><a href="#Stream:">Stream:</a></code>
-stream read or write class
 </div>
 <div class="br"></div><div class="part tocItem">
 <code><a href="#const">const</a></code>
 multi-byte encoding
 </div>
 <div class="br"></div><div class="part tocItem">
-<code><a href="#InFile:">InFile:</a></code>
-file reader class
+<code><a href="#stream">stream</a></code>
+read or write to string
 </div>
 <div class="br"></div><div class="part tocItem">
-<code><a href="#OutFile:">OutFile:</a></code>
-file writer class
+<code><a href="#StreamData:">StreamData:</a></code>
+stored data of a stream
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#Stream:">Stream:</a></code>
+stream read or write class
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#File">File</a></code>
+file manipulator class
 </div>
 
 </div>
@@ -148,19 +144,13 @@ interchangeable with <code><a href="C.html#VytF">VytF</a></code>
 <pre><code>struct Tools</code></pre>
 <div class="br"></div>Utility functions<div class="br"></div><div class="parts">
 <div class="part func" id="Tools.noIdx">
-<pre><code>static Exc noIdx()</code></pre>
-<div class="br"></div>Exception for index out of bounds<div class="br"></div><div class="part return">
-<code>return</code> The exception
-</div>
-
+<pre><code>static void noIdx()</code></pre>
+<div class="br"></div>Throws exception for index out of bounds
 </div>
 <div class="hr"></div><div class="part func" id="Tools.notImpl">
-<pre><code>static Exc notImpl( const char * meth )</code></pre>
-<div class="br"></div>Exception if a method is not implemented<div class="br"></div><div class="part param">
+<pre><code>static void notImpl( const char * meth )</code></pre>
+<div class="br"></div>Throws exception if a method is not implemented<div class="br"></div><div class="part param">
 <code>meth</code> The method name
-</div>
-<div class="br"></div><div class="part return">
-<code>return</code> The exception
 </div>
 
 </div>
@@ -226,39 +216,31 @@ interchangeable with <code><a href="C.html#VytF">VytF</a></code>
 <div class="hr"></div><div class="part cls" id="NoAssign">
 <pre><code>class NoAssign</code></pre>
 <div class="br"></div>No-assignment class<div class="br"></div><div class="parts">
-<div class="part func">
+<div class="part func" id="NoAssign.NoAssign">
+<pre><code>NoAssign( const NoAssign & )</code></pre>
+<div class="br"></div>Hidden copy constructor
+</div>
+<div class="hr"></div><div class="part func">
 <pre><code>NoAssign & operator = (const NoAssign & other);</code></pre>
 <div class="br"></div>Hidden assignment
 </div>
 
 </div>
 </div>
-<div class="hr"></div><div class="part cls" id="RefData">
-<pre><code>struct RefData</code></pre>
+<div class="hr"></div><div class="part cls" id="RefData:">
+<pre><code>struct RefData: public NoAssign</code></pre>
 <div class="br"></div>Reference counted data
 Base class to be used with <code><a href="#RefCount">RefCount</a></code><div class="br"></div><div class="parts">
-<div class="part field" id="RefData.ref">
+<div class="part field" id="RefData:.ref">
 <code>ref</code> Number of references to this data
 </div>
-<div class="hr"></div><div class="part func" id="RefData.RefData">
+<div class="hr"></div><div class="part func" id="RefData:.RefData">
 <pre><code>RefData()</code></pre>
 <div class="br"></div>Default constructor
 </div>
-
-</div>
-</div>
-<div class="hr"></div><div class="part cls" id="HRefData:">
-<pre><code>struct HRefData: RefData</code></pre>
-<div class="br"></div><code><a href="#RefData">RefData</a></code> with a single handle<div class="br"></div><div class="parts">
-<div class="part field" id="HRefData:.handle">
-<code>handle</code> The handle
-</div>
-<div class="hr"></div><div class="part func" id="HRefData:.HRefData">
-<pre><code>HRefData( Ptr handle )</code></pre>
-<div class="br"></div>Construct with handle<div class="br"></div><div class="part param">
-<code>handle</code> The handle
-</div>
-
+<div class="hr"></div><div class="part func" id="RefData:.~RefData">
+<pre><code>virtual ~RefData()</code></pre>
+<div class="br"></div>Virtual destructor
 </div>
 
 </div>
@@ -273,6 +255,15 @@ Base class to be used with <code><a href="#RefCount">RefCount</a></code><div cla
 <pre><code>RefCount()</code></pre>
 <div class="br"></div>Default constructor
 </div>
+<div class="hr"></div><div class="part func" id="RefCount.RefCount">
+<pre><code>RefCount( const RefCount & )</code></pre>
+<div class="br"></div>Copy constructor
+</div>
+<div class="hr"></div><div class="part func">
+<pre><code>RefCount & operator=( const RefCount & );</code></pre>
+<div class="br"></div>Assignment
+Increases the reference
+</div>
 <div class="hr"></div><div class="part func" id="RefCount.ref">
 <pre><code>virtual void ref( RefData * newRd )</code></pre>
 <div class="br"></div>change reference to <code>newRd</code><div class="br"></div><div class="part param">
@@ -280,31 +271,11 @@ Base class to be used with <code><a href="#RefCount">RefCount</a></code><div cla
 </div>
 
 </div>
-<div class="hr"></div><div class="part func" id="RefCount.destroy">
-<pre><code>virtual void destroy()</code></pre>
-<div class="br"></div>Method called when there are no more references to the data
-</div>
-<div class="hr"></div><div class="part func" id="RefCount.RefCount">
-<pre><code>RefCount( const RefCount & )</code></pre>
-<div class="br"></div>Copy constructor
-Increases the reference
-</div>
 <div class="hr"></div><div class="part func" id="RefCount.~RefCount">
 <pre><code>~RefCount()</code></pre>
 <div class="br"></div>Destructor
 Decreases the reference
 </div>
-<div class="hr"></div><div class="part func">
-<pre><code>RefCount & operator=( const RefCount & );</code></pre>
-<div class="br"></div>Assignment
-Increases the reference
-</div>
-
-</div>
-</div>
-<div class="hr"></div><div class="part cls" id="HRefCount:">
-<pre><code>class HRefCount: public RefCount</code></pre>
-<div class="br"></div>refcounted handle<div class="br"></div><div class="parts">
 
 </div>
 </div>
@@ -314,28 +285,39 @@ Increases the reference
 
 </div>
 </div>
+<div class="hr"></div><div class="part field" id="const">
+<code>const</code> multi-byte encoding
+</div>
+<div class="hr"></div><div class="part func" id="stream">
+<pre><code>Uint stream( Stream s )</code></pre>
+<div class="br"></div>read or write to string
+</div>
+<div class="hr"></div><div class="part cls" id="StreamData:">
+<pre><code>struct StreamData: public RefData</code></pre>
+<div class="br"></div>stored data of a stream<div class="br"></div><div class="parts">
+
+</div>
+</div>
 <div class="hr"></div><div class="part cls" id="Stream:">
 <pre><code>class Stream: public RefCount</code></pre>
 <div class="br"></div>stream read or write class<div class="br"></div><div class="parts">
-<div class="part func" id="Stream:.op">
-<pre><code>virtual Uint op( Ptr data, Uint n )</code></pre>
+<div class="part func" id="Stream:.Stream">
+<pre><code>Stream( StreamData & data )</code></pre>
+<div class="br"></div>Construct with handle and operation<div class="br"></div><div class="part param">
+<code>data</code> The stream data
+</div>
+
+</div>
+<div class="hr"></div><div class="part func" id="Stream:.op">
+<pre><code>Uint op( Ptr data, Uint n )</code></pre>
 <div class="br"></div>read or write
 </div>
 
 </div>
 </div>
-<div class="hr"></div><div class="part field" id="const">
-<code>const</code> multi-byte encoding
-</div>
-<div class="hr"></div><div class="part cls" id="InFile:">
-<pre><code>class InFile: public Stream</code></pre>
-<div class="br"></div>file reader class<div class="br"></div><div class="parts">
-
-</div>
-</div>
-<div class="hr"></div><div class="part cls" id="OutFile:">
-<pre><code>class OutFile: public Stream</code></pre>
-<div class="br"></div>file writer class<div class="br"></div><div class="parts">
+<div class="hr"></div><div class="part cls" id="File">
+<pre><code>class File</code></pre>
+<div class="br"></div>file manipulator class<div class="br"></div><div class="parts">
 
 </div>
 </div>

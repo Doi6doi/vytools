@@ -72,6 +72,18 @@ Rectangle
 Any stream type
 </div>
 <div class="br"></div><div class="part tocItem">
+<code><a href="#vyt_alloc">vyt_alloc</a></code>
+(re)allocate memory in current frame
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#vyt_frame">vyt_frame</a></code>
+open new frame or close current
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#vyt_raise">vyt_raise</a></code>
+raises allocation of memory to previous frame
+</div>
+<div class="br"></div><div class="part tocItem">
 <code><a href="#VtlMem">VtlMem</a></code>
 Resizable allocated memory
 </div>
@@ -90,6 +102,14 @@ Custom read or write operation
 <div class="br"></div><div class="part tocItem">
 <code><a href="#vyt_fwrite">vyt_fwrite</a></code>
 <code><a href="https://en.cppreference.com/w/c/io/fwrite">fwrite</a></code> as <code>VytStreamOp</code>
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#vyt_mread">vyt_mread</a></code>
+memory copy from (VytPtr *)stream to mem
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#vyt_mwrite">vyt_mwrite</a></code>
+memory copy form mem to (VytPtr *)stream
 </div>
 <div class="br"></div><div class="part tocItem">
 <code><a href="#vyt_block_op">vyt_block_op</a></code>
@@ -126,26 +146,6 @@ milliseconds passed since epoch
 <div class="br"></div><div class="part tocItem">
 <code><a href="#vyt_stamp_diff">vyt_stamp_diff</a></code>
 milliseconds passed since last call to <code>vyt_stamp_diff</code>
-</div>
-<div class="br"></div><div class="part tocItem">
-<code><a href="#vyt_mem_create">vyt_mem_create</a></code>
-allocate resizable memory
-</div>
-<div class="br"></div><div class="part tocItem">
-<code><a href="#vyt_mem_free">vyt_mem_free</a></code>
-free resizable memory
-</div>
-<div class="br"></div><div class="part tocItem">
-<code><a href="#vyt_mem_resize">vyt_mem_resize</a></code>
-resize resizable memory
-</div>
-<div class="br"></div><div class="part tocItem">
-<code><a href="#vyt_mem_address">vyt_mem_address</a></code>
-allocated resizable memory address
-</div>
-<div class="br"></div><div class="part tocItem">
-<code><a href="#vyt_mem_size">vyt_mem_size</a></code>
-resizable memory current size
 </div>
 
 </div>
@@ -195,6 +195,12 @@ resizable memory current size
 <code>y</code>
 </div>
 
+</div>
+<div class="hr"></div><div class="part">
+vector addition
+</div>
+<div class="hr"></div><div class="part">
+vector subtraction
 </div>
 <div class="hr"></div><div class="part record" id="Vyt?Rect">
 <pre><code>struct Vyt?Rect</code></pre>
@@ -246,6 +252,22 @@ resizable memory current size
 <pre><code>VytStream</code></pre>
 <div class="br"></div>Any stream type
 </div>
+<div class="hr"></div><div class="part func" id="vyt_alloc">
+<pre><code>VytPtr vyt_alloc( VytPtr old, VytU size )</code></pre>
+<div class="br"></div>(re)allocate memory in current frame
+</div>
+<div class="hr"></div><div class="part func" id="vyt_frame">
+<pre><code>void vyt_frame( bool openNew )</code></pre>
+<div class="br"></div>open new frame or close current
+if called with true, creates a new frame to remember allocations
+if called with false, frees all vyt_alloc-ed memory in the frame
+and destroys frame itself
+</div>
+<div class="hr"></div><div class="part func" id="vyt_raise">
+<pre><code>VytPtr vyt_raise( VytPtr )</code></pre>
+<div class="br"></div>raises allocation of memory to previous frame
+dies if there is no previous frame
+</div>
 <div class="hr"></div><div class="part type" id="VtlMem">
 <pre><code>VtlMem</code></pre>
 <div class="br"></div>Resizable allocated memory
@@ -277,6 +299,14 @@ resizable memory current size
 <div class="hr"></div><div class="part func" id="vyt_fwrite">
 <pre><code>VytU vyt_fwrite( VytStream stream, VytPtr mem, VytU size )</code></pre>
 <div class="br"></div><code><a href="https://en.cppreference.com/w/c/io/fwrite">fwrite</a></code> as <code>VytStreamOp</code>
+</div>
+<div class="hr"></div><div class="part func" id="vyt_mread">
+<pre><code>VytU vyt_mread( VytStream stream, VytPtr mem, VytU size )</code></pre>
+<div class="br"></div>memory copy from (VytPtr *)stream to mem
+</div>
+<div class="hr"></div><div class="part func" id="vyt_mwrite">
+<pre><code>VytU vyt_mwrite( VytStream stream, VytPtr mem, VytU size )</code></pre>
+<div class="br"></div>memory copy form mem to (VytPtr *)stream
 </div>
 <div class="hr"></div><div class="part func" id="vyt_block_op">
 <pre><code>bool vyt_block_op( VytStream stream, VytStreamOp op, VytPtr mem, VytU size )</code></pre>
@@ -375,56 +405,6 @@ Calls <code>read</code> without using the data read<div class="br"></div><div cl
 <div class="hr"></div><div class="part func" id="vyt_stamp_diff">
 <pre><code>VytU vyt_stamp_diff()</code></pre>
 <div class="br"></div>milliseconds passed since last call to <code>vyt_stamp_diff</code>
-</div>
-<div class="hr"></div><div class="part func" id="vyt_mem_create">
-<pre><code>VtlMem vyt_mem_create( VytU size )</code></pre>
-<div class="br"></div>allocate resizable memory<div class="br"></div><div class="part param">
-<code>size</code> Memory size in bytes
-</div>
-<div class="br"></div><div class="part return">
-<code>return</code> Handle to memory
-</div>
-
-</div>
-<div class="hr"></div><div class="part func" id="vyt_mem_free">
-<pre><code>void vyt_mem_free( VtlMem m )</code></pre>
-<div class="br"></div>free resizable memory<div class="br"></div><div class="part param">
-<code>m</code> Handle to memory
-</div>
-
-</div>
-<div class="hr"></div><div class="part func" id="vyt_mem_resize">
-<pre><code>bool vyt_mem_resize( VtlMem m, VytU size )</code></pre>
-<div class="br"></div>resize resizable memory<div class="br"></div><div class="part param">
-<code>m</code> Handle to memory
-</div>
-<div class="br"></div><div class="part param">
-<code>size</code> New size in bytes
-</div>
-<div class="br"></div><div class="part return">
-<code>return</code> <code>true</code> if succeeded
-</div>
-
-</div>
-<div class="hr"></div><div class="part func" id="vyt_mem_address">
-<pre><code>VytPtr vyt_mem_address( VtlMem m )</code></pre>
-<div class="br"></div>allocated resizable memory address<div class="br"></div><div class="part param">
-<code>m</code> Handle to memory
-</div>
-<div class="br"></div><div class="part return">
-<code>return</code> Pointer to allocated memory
-</div>
-
-</div>
-<div class="hr"></div><div class="part func" id="vyt_mem_size">
-<pre><code>VytU vyt_mem_size( VtlMem m )</code></pre>
-<div class="br"></div>resizable memory current size<div class="br"></div><div class="part param">
-<code>m</code> Handle to memory
-</div>
-<div class="br"></div><div class="part return">
-<code>return</code> Current size of memory
-</div>
-
 </div>
 
 </div>
