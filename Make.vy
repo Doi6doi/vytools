@@ -28,22 +28,30 @@ make {
 
    target {
 
-      /// download and/or build 
-      default {
-         if ( inDir() )
-            build();
-         else {
-            download();
-            make( $name );
+      /// run menu
+      menu {
+         $Dlg := tool( "Dialog" );
+         m := $Dlg.menu("vyTools")
+            .item("VyTools is a C and C++ library which"
+            +" makes often used tasks easier.");
+         if ( inDir() ) {
+            m.item("Build libraries",build)
+             .item("Clean generated files",clean)
+             .item("Generate documentation",docs)
+             .item("Run tests",test);
+         } else {
+            m.item("Download source",download);
          }
+         m.exec();
       }
 
       /// download the project
       download {
          $Git.clone( $url );
+         cd("vytools");
       }
 
-      /// build project
+     /// build project
       build {
          genCcs();
          genDep();
@@ -65,6 +73,7 @@ make {
       test {
          make("test");
       }
+
    }
 
    function {
