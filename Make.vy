@@ -56,7 +56,7 @@ make {
          genCcs();
          genDep();
          genObjs();
-         genLib();
+         genLibs();
       }
 
       /// clear generated files
@@ -116,7 +116,7 @@ make {
       }
 
       /// generate library
-      genLib() {
+      genLibs() {
          os := changeExt( $cs, $C.objExt() );
          if ( older( $lib, os ))
             $C.link( $lib, os );

@@ -10,7 +10,7 @@ namespace vyt {
 NoAssign::NoAssign( const NoAssign & ) {
    Tools::notImpl( "NoAssign" );
 }
-   
+
 NoAssign & NoAssign::operator = (const NoAssign & ) {
    Tools::notImpl( "operator =" );
    return *this;
@@ -78,7 +78,7 @@ RefData * Cow::wref() {
       ref( copy( rd ));
    return rd;
 }
-      
+
 RefData::RefData() : ref(0) {}
 
 RefData::~RefData() { }
@@ -99,8 +99,8 @@ Ptr Tools::realloc( Ptr p, Uint size ) {
    if ( size && ! ret )
       throw Exc("Could not allocate memory");
    return ret;
-}  
- 
+}
+
 Stream Tools::stdErr() {
    static Stream ret( *new HStreamData( stderr, vytc::vyt_fwrite ) );
    return ret;

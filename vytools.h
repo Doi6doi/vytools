@@ -10,9 +10,9 @@ makes often used tasks easier.
 The `vytools.h` header is for the *C* part.
 It contains some fixed-size basic types,
 often used structures, basic string and stream handling
-and a resizable buffer. 
+and a resizable buffer.
 
-If compiled with a C++ compiler, all the declarations are in 
+If compiled with a C++ compiler, all the declarations are in
 the `vytc` namespace
 */
 
@@ -95,7 +95,7 @@ struct Vyt_##t##Vec2 vyt_##t##v2_sub( Vyt##t##Vec2 a, Vyt##t##Vec2 b )
 VYT_V2SUB( I );
 VYT_V2SUB( U );
 VYT_V2SUB( F );
-    
+
 /** Rectangle
 \ref struct Vyt?Rect { */
 #define VYT_RECT( t ) \

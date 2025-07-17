@@ -1,6 +1,6 @@
 #include "vytools.h"
 
-VYT_CBEGIN() 
+VYT_CBEGIN()
 
 #include <string.h>
 #include <stdlib.h>
@@ -25,9 +25,9 @@ typedef struct Vyt_Frame {
    uint32_t count;
    VytPtr * ptrs;
 } * VytFrame;
-   
+
 static VytFrame frame = NULL;
-   
+
 #define VYT_V2ADDB( t ) \
 VYT_V2ADD( t ) { \
    struct Vyt_##t##Vec2 ret = { .x = a->x + b->x, .y = a->y + b->y }; \
