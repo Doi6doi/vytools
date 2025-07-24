@@ -21,17 +21,7 @@ the `vytc` namespace
 
 /** ## Details */
 
-/** macros to write extern "C" block
-\ref #define VYT_CBEGIN()
-\ref #define VYT_CEND() */
-
-#ifdef __cplusplus
-#define VYT_CBEGIN() extern "C" {
-#define VYT_CEND() }
-#else
-#define VYT_CBEGIN()
-#define VYT_CEND()
-#endif
+#include "vytools_defs.h"
 
 VYT_CBEGIN()
 
@@ -39,7 +29,6 @@ VYT_CBEGIN()
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "vytools_arch.h"
 
 VYT_CEND()
 
@@ -78,7 +67,7 @@ VYT_VEC2( F )
 \param b Second vector
 \return Result vector */
 #define VYT_V2ADD( t ) \
-struct Vyt_##t##Vec2 vyt_##t##v2_add( Vyt##t##Vec2 a, Vyt##t##Vec2 b )
+VYT_EXPORT struct Vyt_##t##Vec2 vyt_##t##v2_add( Vyt##t##Vec2 a, Vyt##t##Vec2 b )
 
 VYT_V2ADD( I );
 VYT_V2ADD( U );
@@ -90,7 +79,7 @@ VYT_V2ADD( F );
 \param b Second vector
 \return Result vector */
 #define VYT_V2SUB( t ) \
-struct Vyt_##t##Vec2 vyt_##t##v2_sub( Vyt##t##Vec2 a, Vyt##t##Vec2 b )
+VYT_EXPORT struct Vyt_##t##Vec2 vyt_##t##v2_sub( Vyt##t##Vec2 a, Vyt##t##Vec2 b )
 
 VYT_V2SUB( I );
 VYT_V2SUB( U );
@@ -128,17 +117,17 @@ VYT_TRANS2( F )
 typedef VytPtr VytStream;
 
 /// (re)allocate memory in current frame
-VytPtr vyt_alloc( VytPtr old, VytU size );
+VYT_EXPORT VytPtr vyt_alloc( VytPtr old, VytU size );
 
 /// open new frame or close current
 /// if called with true, creates a new frame to remember allocations
 /// if called with false, frees all vyt_alloc-ed memory in the frame
 /// and destroys frame itself
-void vyt_frame( bool openNew );
+VYT_EXPORT void vyt_frame( bool openNew );
 
 /// raises allocation of memory to previous frame
 /// dies if there is no previous frame
-VytPtr vyt_raise( VytPtr );
+VYT_EXPORT VytPtr vyt_raise( VytPtr );
 
 /// Resizable allocated memory
 typedef struct Vyt_Mem * VtlMem;
@@ -151,15 +140,15 @@ typedef struct Vyt_Mem * VtlMem;
 typedef VytU (* VytStreamOp)( VytStream stream, VytPtr mem, VytU size );
 
 /// `[fread](https://en.cppreference.com/w/c/io/fread)` as `VytStreamOp`
-VytU vyt_fread( VytStream stream, VytPtr mem, VytU size );
+VYT_EXPORT VytU vyt_fread( VytStream stream, VytPtr mem, VytU size );
 /// `[fread](https://en.cppreference.com/w/c/io/fread)` as `VytStreamOp`, can read less than full block
-VytU vyt_fread_part( VytStream stream, VytPtr mem, VytU size );
+VYT_EXPORT VytU vyt_fread_part( VytStream stream, VytPtr mem, VytU size );
 /// `[fwrite](https://en.cppreference.com/w/c/io/fwrite)` as `VytStreamOp`
-VytU vyt_fwrite( VytStream stream, VytPtr mem, VytU size );
+VYT_EXPORT VytU vyt_fwrite( VytStream stream, VytPtr mem, VytU size );
 /// memory copy from (VytPtr *)stream to mem
-VytU vyt_mread( VytStream stream, VytPtr mem, VytU size );
+VYT_EXPORT VytU vyt_mread( VytStream stream, VytPtr mem, VytU size );
 /// memory copy form mem to (VytPtr *)stream
-VytU vyt_mwrite( VytStream stream, VytPtr mem, VytU size );
+VYT_EXPORT VytU vyt_mwrite( VytStream stream, VytPtr mem, VytU size );
 
 /** write or read a complete block using `VytStreamOp`.
 Keeps calling `op` until `size` is reached or `0` is returned
@@ -168,7 +157,7 @@ Keeps calling `op` until `size` is reached or `0` is returned
 \param mem Pointer to data
 \param size Total number of bytes to write
 \return `true` if all `size` bytes are read or written */
-bool vyt_block_op( VytStream stream, VytStreamOp op, VytPtr mem, VytU size );
+VYT_EXPORT bool vyt_block_op( VytStream stream, VytStreamOp op, VytPtr mem, VytU size );
 
 /** skip reading bytes.
 Calls `read` without using the data read
@@ -176,7 +165,7 @@ Calls `read` without using the data read
 \param read The read or write operation
 \param size Total number of bytes to skip
 \return `true` if all `size` bytes are skipped */
-bool vyt_read_skip( VytStream stream, VytStreamOp read, VytU size );
+VYT_EXPORT bool vyt_read_skip( VytStream stream, VytStreamOp read, VytU size );
 
 /** write line to std error.
 \param ... Arguments as in [printf](https://en.cppreference.com/w/c/io/fprintf)*/
@@ -197,30 +186,28 @@ bool vyt_read_skip( VytStream stream, VytStreamOp read, VytU size );
 \param s The string
 \param nat Number is returned here
 \return `true` on success */
-bool vyt_nat( VytStr s, VytU * nat );
+VYT_EXPORT bool vyt_nat( VytStr s, VytU * nat );
 
 /** same strings (`NULL` proof)
 \param a First string
 \param b Second string
 \return `true` if both are `NULL` or the two are the same */
-bool vyt_same( VytStr a, VytStr b );
+VYT_EXPORT bool vyt_same( VytStr a, VytStr b );
 
 /** format string (uses static buffer)
 \param fmt Format string
 \param ... `[printf](https://en.cppreference.com/w/c/io/fprintf)` arguments
 \return The formatted string */
-VytStr vyt_sprintf( VytStr fmt, ... );
+VYT_EXPORT VytStr vyt_sprintf( VytStr fmt, ... );
 
 /// milliseconds passed since epoch
-VytZ vyt_stamp();
+VYT_EXPORT VytZ vyt_stamp();
 
 /// milliseconds passed since last call to `vyt_stamp_diff`
-VytU vyt_stamp_diff();
-
+VYT_EXPORT VytU vyt_stamp_diff();
 
 #ifdef __cplusplus
 }
 #endif
-
 
 #endif // VULTOOLSH

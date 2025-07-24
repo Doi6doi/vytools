@@ -8,7 +8,7 @@
 makes often used tasks easier.
 
 The `vytools.hpp` is for the *C++* part.
-It defines the namespace `vyt`. 
+It defines the namespace `vyt`.
 All other declarations are in that namespace.
 
 It contains basic types,
@@ -20,6 +20,8 @@ exception, a basic stream and a char- and wide string. */
 \toc */
 
 /** ## Details */
+
+#include "vytools_defs.h"
 
 #include <cstdint>
 #include <cwchar>
@@ -46,7 +48,6 @@ typedef float Float;
 typedef char Char;
 /// Unicode character
 typedef wchar_t Wide;
-
 
 class CString;
 class WString;
@@ -81,17 +82,17 @@ struct Tools {
    static Stream stdErr();
 };
 
-/** No-create class 
+/** No-create class
 (e.g singleton) */
-class NoCreate {
+class VYT_EXPORT NoCreate {
 protected:
    /** Hidden default constructor */
    NoCreate();
 };
 
 /** No-assignment class */
-class NoAssign {
-protected:   
+class VYT_EXPORT NoAssign {
+protected:
    /** Hidden copy constructor */
    NoAssign( const NoAssign & );
    /** Hidden assignment */
@@ -102,18 +103,18 @@ public:
 
 /** Reference counted data
 Base class to be used with `[#RefCount]` */
-struct RefData: public NoAssign {
+struct VYT_EXPORT RefData: public NoAssign {
 public:
    /// Number of references to this data
    Uint ref;
-   /// Default constructor 
+   /// Default constructor
    RefData();
    /// Virtual destructor
    virtual ~RefData();
 };
-   
+
 /** Reference counted class */
-class RefCount {
+class VYT_EXPORT RefCount {
 protected:
    /// Reference to the real data stored in a `[#RefData]`
    RefData * rd;
@@ -134,24 +135,24 @@ public:
 };
 
 /// copy-on-write refcounted object
-class Cow: public RefCount {
+class VYT_EXPORT Cow: public RefCount {
 protected:
    virtual RefData * copy( RefData * );
    RefData * wref();
 };
- 
+
 }
 
 #include "vytools_tpl.hpp"
 
 namespace vyt {
 
-class CString: public Cow {
+class VYT_EXPORT CString: public Cow {
 protected:
    RefData * copy( RefData * );
    ArrayData<Char> & warr();
    const ArrayData<Char> & arr() const;
-   void append( const Char *, Uint n );   
+   void append( const Char *, Uint n );
    void clear();
 public:
    CString();
@@ -170,14 +171,14 @@ public:
    CString sub(Uint at, Uint n=0) const;
    Uint stream( Stream s );
 public:
-   static Uint lenOf( const Char * );   
-   static CString format( CString fmt, ... );   
+   static Uint lenOf( const Char * );
+   static CString format( CString fmt, ... );
    static bool passArg( CString & fmt, va_list, CString & dest );
-   static CString argFmt( Char, va_list ); 
+   static CString argFmt( Char, va_list );
 };
 
 
-class WString: public Cow  {
+class VYT_EXPORT WString: public Cow  {
 protected:
    RefData * copy( RefData * );
    ArrayData<Wide> & warr();
@@ -207,37 +208,34 @@ public:
    /// read or write to string
    Uint stream( Stream s );
 public:
-   static Uint lenOf( const Wide * );   
-   static WString format( WString fmt, ... );   
+   static Uint lenOf( const Wide * );
+   static WString format( WString fmt, ... );
    static bool passArg( WString & fmt, va_list, WString & dest );
-   static WString argFmt( Wide, va_list ); 
+   static WString argFmt( Wide, va_list );
 };
 
 
-class Exc {
+class VYT_EXPORT Exc {
 protected:
-   WString msg; 
+   WString msg;
 public:
    Exc();
    Exc( WString fmt, ... );
    WString message() const;
 };
 
-class Excs {
-};   
-
 /// stored data of a stream
-struct StreamData: public RefData {
+struct VYT_EXPORT StreamData: public RefData {
    virtual Uint op( Ptr data, Uint n );
 };
 
 /// stream read or write class
-class Stream: public RefCount {
+class VYT_EXPORT Stream: public RefCount {
 public:
    /** Construct with handle and operation
    \param data The stream data */
    Stream( StreamData & data );
-   /// read or write 
+   /// read or write
    Uint op( Ptr data, Uint n );
    Stream & operator =( const Stream & );
 };
@@ -245,7 +243,7 @@ public:
 enum class FileMode { READ, READPART, WRITE };
 
 /// file manipulator class
-class File {
+class VYT_EXPORT File {
 public:
    static Stream open( WString path, FileMode );
 };

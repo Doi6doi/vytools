@@ -28,10 +28,6 @@ the <code>vytc</code> namespace
 <div class="hr"></div><div class="part">
 <h2>Contents</h2><div class="br"></div><div class="part toc">
 <div class="part tocItem">
-<code><a href="#VYT_CBEGIN">VYT_CBEGIN</a></code>
-macros to write extern &quot;C&quot; block
-</div>
-<div class="br"></div><div class="part tocItem">
 <code><a href="#VytPtr">VytPtr</a></code>
 Typeless pointer
 </div>
@@ -154,10 +150,6 @@ milliseconds passed since last call to <code>vyt_stamp_diff</code>
 <div class="hr"></div><div class="part">
 <h2>Details</h2>
 </div>
-<div class="hr"></div><div class="part macro" id="VYT_CBEGIN">
-<pre><code>VYT_CBEGIN()</code></pre>
-<div class="br"></div>macros to write extern &quot;C&quot; block
-</div>
 <div class="hr"></div><div class="part type" id="VytPtr">
 <pre><code>VytPtr</code></pre>
 <div class="br"></div>Typeless pointer
@@ -184,67 +176,34 @@ milliseconds passed since last call to <code>vyt_stamp_diff</code>
 </div>
 <div class="hr"></div><div class="part record" id="Vyt?Vec2">
 <pre><code>struct Vyt?Vec2</code></pre>
-<div class="br"></div>2 coordinate vector<div class="br"></div><div class="part macro" id="Vyt?Vec2.VYT_VEC2">
+<div class="br"></div>2 coordinate vector
+Y coordinate<div class="br"></div><div class="part macro" id="Vyt?Vec2.VYT_VEC2">
 <pre><code>VYT_VEC2( t )</code></pre>
 
 </div>
-<div class="br"></div><div class="part field" id="Vyt?Vec2.x">
-<code>x</code>
-</div>
-<div class="br"></div><div class="part field" id="Vyt?Vec2.y">
-<code>y</code>
-</div>
 
 </div>
-<div class="hr"></div><div class="part">
-vector addition
+<div class="hr"></div><div class="part enumitem">
+<code>struct</code> vector addition
 </div>
-<div class="hr"></div><div class="part">
-vector subtraction
+<div class="hr"></div><div class="part enumitem">
+<code>struct</code> vector subtraction
 </div>
 <div class="hr"></div><div class="part record" id="Vyt?Rect">
 <pre><code>struct Vyt?Rect</code></pre>
-<div class="br"></div>Rectangle<div class="br"></div><div class="part macro" id="Vyt?Rect.VYT_RECT">
+<div class="br"></div>Rectangle
+Height<div class="br"></div><div class="part macro" id="Vyt?Rect.VYT_RECT">
 <pre><code>VYT_RECT( t )</code></pre>
 
-</div>
-<div class="br"></div><div class="part field" id="Vyt?Rect.left">
-<code>left</code>
-</div>
-<div class="br"></div><div class="part field" id="Vyt?Rect.top">
-<code>top</code>
-</div>
-<div class="br"></div><div class="part field" id="Vyt?Rect.width">
-<code>width</code>
-</div>
-<div class="br"></div><div class="part field" id="Vyt?Rect.height">
-<code>height</code>
 </div>
 
 </div>
 <div class="hr"></div><div class="part record" id="Vyt?Trans2">
 <pre><code>struct Vyt?Trans2</code></pre>
-<div class="br"></div>2d transformation matrix<div class="br"></div><div class="part macro" id="Vyt?Trans2.VYT_TRANS2">
+<div class="br"></div>2d transformation matrix
+Y coordinate shift<div class="br"></div><div class="part macro" id="Vyt?Trans2.VYT_TRANS2">
 <pre><code>VYT_TRANS2( t )</code></pre>
 
-</div>
-<div class="br"></div><div class="part field" id="Vyt?Trans2.sx">
-<code>sx</code>
-</div>
-<div class="br"></div><div class="part field" id="Vyt?Trans2.rx">
-<code>rx</code>
-</div>
-<div class="br"></div><div class="part field" id="Vyt?Trans2.ry">
-<code>ry</code>
-</div>
-<div class="br"></div><div class="part field" id="Vyt?Trans2.sy">
-<code>sy</code>
-</div>
-<div class="br"></div><div class="part field" id="Vyt?Trans2.dx">
-<code>dx</code>
-</div>
-<div class="br"></div><div class="part field" id="Vyt?Trans2.dy">
-<code>dy</code>
 </div>
 
 </div>
@@ -253,18 +212,18 @@ vector subtraction
 <div class="br"></div>Any stream type
 </div>
 <div class="hr"></div><div class="part func" id="vyt_alloc">
-<pre><code>VytPtr vyt_alloc( VytPtr old, VytU size )</code></pre>
+<pre><code>VYT_EXPORT VytPtr vyt_alloc( VytPtr old, VytU size )</code></pre>
 <div class="br"></div>(re)allocate memory in current frame
 </div>
 <div class="hr"></div><div class="part func" id="vyt_frame">
-<pre><code>void vyt_frame( bool openNew )</code></pre>
+<pre><code>VYT_EXPORT void vyt_frame( bool openNew )</code></pre>
 <div class="br"></div>open new frame or close current
 if called with true, creates a new frame to remember allocations
 if called with false, frees all vyt_alloc-ed memory in the frame
 and destroys frame itself
 </div>
 <div class="hr"></div><div class="part func" id="vyt_raise">
-<pre><code>VytPtr vyt_raise( VytPtr )</code></pre>
+<pre><code>VYT_EXPORT VytPtr vyt_raise( VytPtr )</code></pre>
 <div class="br"></div>raises allocation of memory to previous frame
 dies if there is no previous frame
 </div>
@@ -289,27 +248,27 @@ dies if there is no previous frame
 
 </div>
 <div class="hr"></div><div class="part func" id="vyt_fread">
-<pre><code>VytU vyt_fread( VytStream stream, VytPtr mem, VytU size )</code></pre>
+<pre><code>VYT_EXPORT VytU vyt_fread( VytStream stream, VytPtr mem, VytU size )</code></pre>
 <div class="br"></div><code><a href="https://en.cppreference.com/w/c/io/fread">fread</a></code> as <code>VytStreamOp</code>
 </div>
 <div class="hr"></div><div class="part func" id="vyt_fread_part">
-<pre><code>VytU vyt_fread_part( VytStream stream, VytPtr mem, VytU size )</code></pre>
+<pre><code>VYT_EXPORT VytU vyt_fread_part( VytStream stream, VytPtr mem, VytU size )</code></pre>
 <div class="br"></div><code><a href="https://en.cppreference.com/w/c/io/fread">fread</a></code> as <code>VytStreamOp</code>, can read less than full block
 </div>
 <div class="hr"></div><div class="part func" id="vyt_fwrite">
-<pre><code>VytU vyt_fwrite( VytStream stream, VytPtr mem, VytU size )</code></pre>
+<pre><code>VYT_EXPORT VytU vyt_fwrite( VytStream stream, VytPtr mem, VytU size )</code></pre>
 <div class="br"></div><code><a href="https://en.cppreference.com/w/c/io/fwrite">fwrite</a></code> as <code>VytStreamOp</code>
 </div>
 <div class="hr"></div><div class="part func" id="vyt_mread">
-<pre><code>VytU vyt_mread( VytStream stream, VytPtr mem, VytU size )</code></pre>
+<pre><code>VYT_EXPORT VytU vyt_mread( VytStream stream, VytPtr mem, VytU size )</code></pre>
 <div class="br"></div>memory copy from (VytPtr *)stream to mem
 </div>
 <div class="hr"></div><div class="part func" id="vyt_mwrite">
-<pre><code>VytU vyt_mwrite( VytStream stream, VytPtr mem, VytU size )</code></pre>
+<pre><code>VYT_EXPORT VytU vyt_mwrite( VytStream stream, VytPtr mem, VytU size )</code></pre>
 <div class="br"></div>memory copy form mem to (VytPtr *)stream
 </div>
 <div class="hr"></div><div class="part func" id="vyt_block_op">
-<pre><code>bool vyt_block_op( VytStream stream, VytStreamOp op, VytPtr mem, VytU size )</code></pre>
+<pre><code>VYT_EXPORT bool vyt_block_op( VytStream stream, VytStreamOp op, VytPtr mem, VytU size )</code></pre>
 <div class="br"></div>write or read a complete block using <code>VytStreamOp</code>.
 Keeps calling <code>op</code> until <code>size</code> is reached or <code>0</code> is returned<div class="br"></div><div class="part param">
 <code>stream</code> Pointer to the stream
@@ -329,7 +288,7 @@ Keeps calling <code>op</code> until <code>size</code> is reached or <code>0</cod
 
 </div>
 <div class="hr"></div><div class="part func" id="vyt_read_skip">
-<pre><code>bool vyt_read_skip( VytStream stream, VytStreamOp read, VytU size )</code></pre>
+<pre><code>VYT_EXPORT bool vyt_read_skip( VytStream stream, VytStreamOp read, VytU size )</code></pre>
 <div class="br"></div>skip reading bytes.
 Calls <code>read</code> without using the data read<div class="br"></div><div class="part param">
 <code>stream</code> Pointer to the stream
@@ -360,7 +319,7 @@ Calls <code>read</code> without using the data read<div class="br"></div><div cl
 
 </div>
 <div class="hr"></div><div class="part func" id="vyt_nat">
-<pre><code>bool vyt_nat( VytStr s, VytU * nat )</code></pre>
+<pre><code>VYT_EXPORT bool vyt_nat( VytStr s, VytU * nat )</code></pre>
 <div class="br"></div>converts string to natural number<div class="br"></div><div class="part param">
 <code>s</code> The string
 </div>
@@ -373,7 +332,7 @@ Calls <code>read</code> without using the data read<div class="br"></div><div cl
 
 </div>
 <div class="hr"></div><div class="part func" id="vyt_same">
-<pre><code>bool vyt_same( VytStr a, VytStr b )</code></pre>
+<pre><code>VYT_EXPORT bool vyt_same( VytStr a, VytStr b )</code></pre>
 <div class="br"></div>same strings (<code>NULL</code> proof)<div class="br"></div><div class="part param">
 <code>a</code> First string
 </div>
@@ -386,7 +345,7 @@ Calls <code>read</code> without using the data read<div class="br"></div><div cl
 
 </div>
 <div class="hr"></div><div class="part func" id="vyt_sprintf">
-<pre><code>VytStr vyt_sprintf( VytStr fmt, ... )</code></pre>
+<pre><code>VYT_EXPORT VytStr vyt_sprintf( VytStr fmt, ... )</code></pre>
 <div class="br"></div>format string (uses static buffer)<div class="br"></div><div class="part param">
 <code>fmt</code> Format string
 </div>
@@ -399,11 +358,11 @@ Calls <code>read</code> without using the data read<div class="br"></div><div cl
 
 </div>
 <div class="hr"></div><div class="part func" id="vyt_stamp">
-<pre><code>VytZ vyt_stamp()</code></pre>
+<pre><code>VYT_EXPORT VytZ vyt_stamp()</code></pre>
 <div class="br"></div>milliseconds passed since epoch
 </div>
 <div class="hr"></div><div class="part func" id="vyt_stamp_diff">
-<pre><code>VytU vyt_stamp_diff()</code></pre>
+<pre><code>VYT_EXPORT VytU vyt_stamp_diff()</code></pre>
 <div class="br"></div>milliseconds passed since last call to <code>vyt_stamp_diff</code>
 </div>
 

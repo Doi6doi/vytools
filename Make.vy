@@ -5,14 +5,14 @@ make {
       $url := "https://github.com/Doi6doi/vytools.git";
       $ver := "20250329";
       
-      $C := tool( "C", { libMode:true, debug:true });
-      $Cpp := tool( "Cpp", { libMode:true, debug:true });
+      $C := tool( "C", { libMode:true, debug:true, show:true });
+      $Cpp := tool( "Cpp", { libMode:true, debug:true, show:true });
       $Git := tool( "Git" );
       
       $cdep := "c.dep";
       $pdep := "p.dep";
       $cs := ["vytools.c"];
-      $hs := ["vytools_arch.h","vytools.h","vytools_impl.h"];
+      $hs := ["vytools_defs.h","vytools.h","vytools_impl.h"];
       $hps := ["vytools.hpp","vytools_tpl.hpp"];
       $cps := ["vytoolspp.cpp","vyt_str.cpp"];
       case ( system() ) {
