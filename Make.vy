@@ -4,7 +4,7 @@ make {
       $name := "vytools";
       $gitUrl := "https://github.com/Doi6doi/vytools.git";
       $author := "Várnagy Zoltán";
-      $ver := "20250329";
+      $ver := "20250724";
       
       $C := tool( "C", { libMode:true, debug:true, show:true });
       $Cpp := tool( "Cpp", { libMode:true, debug:true, show:true });

@@ -103,7 +103,7 @@ public:
 template <class T> class Vec2 {
 public:
    /// X coordinate
-   T x
+   T x;
    /// Y coordinate
    T y;
 
