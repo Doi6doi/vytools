@@ -1,7 +1,8 @@
 make {
 
    init {
-      $Dox := tool("Dox", {linkTail:".html", style:"style.css"});
+      $Dox := tool("Dox", {linkTail:".html", style:"style.css",
+         omit:"VYT_EXPORT "});
    
       $ixx := "index.dox";
       $ixh := "index.html";
@@ -12,10 +13,12 @@ make {
       $ch  := "C.html";
       $ds  := "../vytools_defs.h";
       $dh  := "Defs.html";
-      $cps := "../vytools.hpp";
-      $cph := "Cpp.html";
+      $ps := "../vytools.hpp";
+      $ph := "Cpp.html";
+      $ts := "../vytools_tpl.hpp";
+      $th := "Templates.html";
       $base := "https://doi6doi.github.io/vytools/";
-      $purge := [$ixh,$rm,$inh,$ch,$cph,$dh];
+      $purge := [$ixh,$rm,$inh,$ch,$ph,$dh,$th];
       links(true);
    }
 
@@ -28,6 +31,7 @@ make {
          c();
          defs();
          cpp();
+         tpl();
       }
 
       /// purge generated files
@@ -72,8 +76,15 @@ make {
       /// build Cpp.html
       cpp() {
          links(false);
-         if ( older( $cph, $cps ))
-            $Dox.build( $cph, $cps );
+         if ( older( $ph, $ps ))
+            $Dox.build( $ph, $ps );
+      }
+
+      /// build Templates.html
+      tpl() {
+         links(false);
+         if ( older( $th, $ts ))
+            $Dox.build( $th, $ts );
       }
 
       /// turn full links on or off

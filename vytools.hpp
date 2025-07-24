@@ -55,7 +55,7 @@ class Exc;
 class Stream;
 
 /// Utility functions
-struct Tools {
+struct VYT_EXPORT Tools {
    /** Throws exception for index out of bounds */
    static void noIdx();
    /** Throws exception if a method is not implemented

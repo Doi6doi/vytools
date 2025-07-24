@@ -2,7 +2,8 @@ make {
 
    init {
       $name := "vytools";
-      $url := "https://github.com/Doi6doi/vytools.git";
+      $gitUrl := "https://github.com/Doi6doi/vytools.git";
+      $author := "Várnagy Zoltán";
       $ver := "20250329";
       
       $C := tool( "C", { libMode:true, debug:true, show:true });
@@ -12,18 +13,19 @@ make {
       $cdep := "c.dep";
       $pdep := "p.dep";
       $cs := ["vytools.c"];
-      $hs := ["vytools_defs.h","vytools.h","vytools_impl.h"];
+      $hs := ["vytools_defs.h","vytools.h"];
+      $his := ["vytools_impl.h"];
       $hps := ["vytools.hpp","vytools_tpl.hpp"];
       $cps := ["vytoolspp.cpp","vyt_str.cpp"];
       case ( system() ) {
          "Linux": $cs += "linux.c";
          "Windows": $cs += "windows.c";
       }
+      $buildDir := "build";
       $ccs := regexp( $cs, "#(.*)\\.c#", "p_\\1.cpp" );
-      $lib := $C.libFile( $name );
+      $clib := $C.libFile( $name );
       $plib := $Cpp.libFile( $name+"p" );
-      $purge := ["*"+$C.objExt(), "*"+$Cpp.objExt(), $C.libFile("*"), "*.dep"]
-         + $ccs;
+      $purge := ["*.o","*.so","*.lib","*.dep",$buildDir] + $ccs;
    }
 
    target {
@@ -39,6 +41,10 @@ make {
              .item("Clean generated files",clean)
              .item("Generate documentation",docs)
              .item("Run tests",test);
+            case (system()) {
+               "Linux": m.item("Create Deb package",deb);
+               "Windows": m.item("Create Windows zip", wzip );
+            }
          } else {
             m.item("Download source",download);
          }
@@ -47,7 +53,7 @@ make {
 
       /// download the project
       download {
-         $Git.clone( $url );
+         $Git.clone( $gitUrl );
          cd("vytools");
       }
 
@@ -67,6 +73,17 @@ make {
       /// create documentation
       docs {
          make("docs");
+      }
+
+      /// create Debian deb package
+      deb {
+         build();
+         makeDeb();
+      }
+
+      wzip {
+         build();
+         makeWZip();
       }
 
       /// run tests
@@ -93,9 +110,9 @@ make {
 
       /// generate dependency files
       genDep() {
-         if ( older( $cdep, $cs+$hs ) )
+         if ( older( $cdep, $cs+$hs+$his ) )
             $C.depend( $cdep, $cs );
-         if ( older( $pdep, $ccs+$cps+$hs+$hps ) )
+         if ( older( $pdep, $ccs+$cps+$hs+$his+$hps ) )
             $Cpp.depend( $pdep, $ccs+$cps );
       }
 
@@ -118,12 +135,46 @@ make {
       /// generate library
       genLibs() {
          os := changeExt( $cs, $C.objExt() );
-         if ( older( $lib, os ))
-            $C.link( $lib, os );
+         if ( older( $clib, os ))
+            $C.link( $clib, os );
          pos := changeExt( $cps+$ccs, $Cpp.objExt() );
          if ( older( $plib, pos ))
             $Cpp.link( $plib, pos );
       }
+
+      makeDeb() {
+         Deb := tool("Deb");
+         Dox := tool("Dox");
+         mkdir( $buildDir );
+         // copy libs
+         blDir := path( $buildDir, "usr/lib" );
+         mkdir( blDir );
+         foreach ( l | [$clib,$plib] )
+            copy( l, path( blDir, l ));
+         // copy headers
+         biDir := path( $buildDir, "usr/include" );
+         mkdir( biDir );
+         foreach ( h | $hs+$hps )
+            copy( h, path( biDir, h ));
+         // create description
+         bdDir := path( $buildDir, "DEBIAN" );
+         mkdir( bdDir );
+         Dox.read("docs/desc.dox");
+         Dox.set("outType","txt");
+         ds := replace(Dox.write(), "\n", "\n " );
+         // create DEBIAN/control
+         cnt := [
+            "Package: "+$name,
+            "Version: "+$ver,
+            "Architecture: "+Deb.arch( arch() ),
+            "Maintainer: "+$author+" <"+$gitUrl+">",
+            "Description: "+ds
+         ];
+         saveFile( path( bdDir, "control" ), implode("\n",cnt) );
+         // build package
+         Deb.build( $buildDir );
+      }
+
 
    }
 

@@ -61,23 +61,23 @@ Unicode character
 Utility functions
 </div>
 <div class="br"></div><div class="part tocItem">
-<code><a href="#VYT_EXPORT">VYT_EXPORT</a></code>
+<code><a href="#NoCreate">NoCreate</a></code>
 No-create class
 </div>
 <div class="br"></div><div class="part tocItem">
-<code><a href="#VYT_EXPORT">VYT_EXPORT</a></code>
+<code><a href="#NoAssign">NoAssign</a></code>
 No-assignment class
 </div>
 <div class="br"></div><div class="part tocItem">
-<code><a href="#VYT_EXPORT">VYT_EXPORT</a></code>
+<code><a href="#RefData">RefData</a></code>
 Reference counted data
 </div>
 <div class="br"></div><div class="part tocItem">
-<code><a href="#VYT_EXPORT">VYT_EXPORT</a></code>
+<code><a href="#RefCount">RefCount</a></code>
 Reference counted class
 </div>
 <div class="br"></div><div class="part tocItem">
-<code><a href="#VYT_EXPORT">VYT_EXPORT</a></code>
+<code><a href="#Cow">Cow</a></code>
 copy-on-write refcounted object
 </div>
 <div class="br"></div><div class="part tocItem">
@@ -89,15 +89,15 @@ multi-byte encoding
 read or write to string
 </div>
 <div class="br"></div><div class="part tocItem">
-<code><a href="#VYT_EXPORT">VYT_EXPORT</a></code>
+<code><a href="#StreamData">StreamData</a></code>
 stored data of a stream
 </div>
 <div class="br"></div><div class="part tocItem">
-<code><a href="#VYT_EXPORT">VYT_EXPORT</a></code>
+<code><a href="#Stream">Stream</a></code>
 stream read or write class
 </div>
 <div class="br"></div><div class="part tocItem">
-<code><a href="#VYT_EXPORT">VYT_EXPORT</a></code>
+<code><a href="#File">File</a></code>
 file manipulator class
 </div>
 
@@ -202,21 +202,21 @@ interchangeable with <code><a href="C.html#VytF">VytF</a></code>
 
 </div>
 </div>
-<div class="hr"></div><div class="part cls" id="VYT_EXPORT">
-<pre><code>class VYT_EXPORT NoCreate</code></pre>
+<div class="hr"></div><div class="part cls" id="NoCreate">
+<pre><code>class NoCreate</code></pre>
 <div class="br"></div>No-create class
 (e.g singleton)<div class="br"></div><div class="parts">
-<div class="part func" id="VYT_EXPORT.NoCreate">
+<div class="part func" id="NoCreate.NoCreate">
 <pre><code>NoCreate()</code></pre>
 <div class="br"></div>Hidden default constructor
 </div>
 
 </div>
 </div>
-<div class="hr"></div><div class="part cls" id="VYT_EXPORT">
-<pre><code>class VYT_EXPORT NoAssign</code></pre>
+<div class="hr"></div><div class="part cls" id="NoAssign">
+<pre><code>class NoAssign</code></pre>
 <div class="br"></div>No-assignment class<div class="br"></div><div class="parts">
-<div class="part func" id="VYT_EXPORT.NoAssign">
+<div class="part func" id="NoAssign.NoAssign">
 <pre><code>NoAssign( const NoAssign & )</code></pre>
 <div class="br"></div>Hidden copy constructor
 </div>
@@ -227,35 +227,35 @@ interchangeable with <code><a href="C.html#VytF">VytF</a></code>
 
 </div>
 </div>
-<div class="hr"></div><div class="part cls" id="VYT_EXPORT">
-<pre><code>struct VYT_EXPORT RefData: public NoAssign</code></pre>
+<div class="hr"></div><div class="part cls" id="RefData">
+<pre><code>struct RefData: public NoAssign</code></pre>
 <div class="br"></div>Reference counted data
 Base class to be used with <code><a href="#RefCount">RefCount</a></code><div class="br"></div><div class="parts">
-<div class="part field" id="VYT_EXPORT.ref">
+<div class="part field" id="RefData.ref">
 <code>ref</code> Number of references to this data
 </div>
-<div class="hr"></div><div class="part func" id="VYT_EXPORT.RefData">
+<div class="hr"></div><div class="part func" id="RefData.RefData">
 <pre><code>RefData()</code></pre>
 <div class="br"></div>Default constructor
 </div>
-<div class="hr"></div><div class="part func" id="VYT_EXPORT.~RefData">
+<div class="hr"></div><div class="part func" id="RefData.~RefData">
 <pre><code>virtual ~RefData()</code></pre>
 <div class="br"></div>Virtual destructor
 </div>
 
 </div>
 </div>
-<div class="hr"></div><div class="part cls" id="VYT_EXPORT">
-<pre><code>class VYT_EXPORT RefCount</code></pre>
+<div class="hr"></div><div class="part cls" id="RefCount">
+<pre><code>class RefCount</code></pre>
 <div class="br"></div>Reference counted class<div class="br"></div><div class="parts">
-<div class="part field" id="VYT_EXPORT.rd">
+<div class="part field" id="RefCount.rd">
 <code>rd</code> Reference to the real data stored in a <code><a href="#RefData">RefData</a></code>
 </div>
-<div class="hr"></div><div class="part func" id="VYT_EXPORT.RefCount">
+<div class="hr"></div><div class="part func" id="RefCount.RefCount">
 <pre><code>RefCount()</code></pre>
 <div class="br"></div>Default constructor
 </div>
-<div class="hr"></div><div class="part func" id="VYT_EXPORT.RefCount">
+<div class="hr"></div><div class="part func" id="RefCount.RefCount">
 <pre><code>RefCount( const RefCount & )</code></pre>
 <div class="br"></div>Copy constructor
 </div>
@@ -264,14 +264,14 @@ Base class to be used with <code><a href="#RefCount">RefCount</a></code><div cla
 <div class="br"></div>Assignment
 Increases the reference
 </div>
-<div class="hr"></div><div class="part func" id="VYT_EXPORT.ref">
+<div class="hr"></div><div class="part func" id="RefCount.ref">
 <pre><code>virtual void ref( RefData * newRd )</code></pre>
 <div class="br"></div>change reference to <code>newRd</code><div class="br"></div><div class="part param">
 <code>newRd</code> The new referenced data. Can be <code>NULL</code>
 </div>
 
 </div>
-<div class="hr"></div><div class="part func" id="VYT_EXPORT.~RefCount">
+<div class="hr"></div><div class="part func" id="RefCount.~RefCount">
 <pre><code>~RefCount()</code></pre>
 <div class="br"></div>Destructor
 Decreases the reference
@@ -279,8 +279,8 @@ Decreases the reference
 
 </div>
 </div>
-<div class="hr"></div><div class="part cls" id="VYT_EXPORT">
-<pre><code>class VYT_EXPORT Cow: public RefCount</code></pre>
+<div class="hr"></div><div class="part cls" id="Cow">
+<pre><code>class Cow: public RefCount</code></pre>
 <div class="br"></div>copy-on-write refcounted object<div class="br"></div><div class="parts">
 
 </div>
@@ -292,31 +292,31 @@ Decreases the reference
 <pre><code>Uint stream( Stream s )</code></pre>
 <div class="br"></div>read or write to string
 </div>
-<div class="hr"></div><div class="part cls" id="VYT_EXPORT">
-<pre><code>struct VYT_EXPORT StreamData: public RefData</code></pre>
+<div class="hr"></div><div class="part cls" id="StreamData">
+<pre><code>struct StreamData: public RefData</code></pre>
 <div class="br"></div>stored data of a stream<div class="br"></div><div class="parts">
 
 </div>
 </div>
-<div class="hr"></div><div class="part cls" id="VYT_EXPORT">
-<pre><code>class VYT_EXPORT Stream: public RefCount</code></pre>
+<div class="hr"></div><div class="part cls" id="Stream">
+<pre><code>class Stream: public RefCount</code></pre>
 <div class="br"></div>stream read or write class<div class="br"></div><div class="parts">
-<div class="part func" id="VYT_EXPORT.Stream">
+<div class="part func" id="Stream.Stream">
 <pre><code>Stream( StreamData & data )</code></pre>
 <div class="br"></div>Construct with handle and operation<div class="br"></div><div class="part param">
 <code>data</code> The stream data
 </div>
 
 </div>
-<div class="hr"></div><div class="part func" id="VYT_EXPORT.op">
+<div class="hr"></div><div class="part func" id="Stream.op">
 <pre><code>Uint op( Ptr data, Uint n )</code></pre>
 <div class="br"></div>read or write
 </div>
 
 </div>
 </div>
-<div class="hr"></div><div class="part cls" id="VYT_EXPORT">
-<pre><code>class VYT_EXPORT File</code></pre>
+<div class="hr"></div><div class="part cls" id="File">
+<pre><code>class File</code></pre>
 <div class="br"></div>file manipulator class<div class="br"></div><div class="parts">
 
 </div>
