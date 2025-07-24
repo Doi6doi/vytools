@@ -1,16 +1,12 @@
 #include "vytools_impl.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+VYT_CBEGIN()
 
 #include <time.h>
 #include <stdbool.h>
 #include <stdlib.h>
 
-#ifdef __cplusplus
-}
-#endif
+VYT_CEND()
 
 VYT_NBEGIN()
 

@@ -1,3 +1,5 @@
+#define VYT_LIB
+
 #include "vytools.hpp"
 #include "vytools.h"
 #include <cstdlib>

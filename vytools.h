@@ -32,9 +32,7 @@ VYT_CBEGIN()
 
 VYT_CEND()
 
-#ifdef __cplusplus
-namespace vytc {
-#endif
+VYT_NBEGIN()
 
 /// Typeless pointer
 typedef void *  VytPtr;
@@ -206,8 +204,6 @@ VYT_EXPORT VytZ vyt_stamp();
 /// milliseconds passed since last call to `vyt_stamp_diff`
 VYT_EXPORT VytU vyt_stamp_diff();
 
-#ifdef __cplusplus
-}
-#endif
+VYT_NEND()
 
 #endif // VULTOOLSH

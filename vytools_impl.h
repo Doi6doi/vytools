@@ -1,25 +1,15 @@
 #ifndef VYTOOLSIMPLH
 #define VYTOOLSIMPLH
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "vytools_defs.h"
+
+VYT_CBEGIN()
 
 #include <stdio.h>
 #include <stdint.h>
 #include <wchar.h>
 
-#ifdef __cplusplus
-}
-#endif
-
-#ifdef __cplusplus
-#define VYT_NBEGIN() namespace vytc {
-#define VYT_NEND() }
-#else
-#define VYT_NBEGIN()
-#define VYT_NEND()
-#endif
+VYT_CEND()
 
 #define REALLOC( p, type, n ) (type *)realloc( p, (n)*sizeof(type) )
 

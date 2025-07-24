@@ -1,3 +1,5 @@
+#define VYT_LIB
+
 #include "vytools.h"
 
 VYT_CBEGIN()
@@ -30,7 +32,7 @@ static VytFrame frame = NULL;
 
 #define VYT_V2ADDB( t ) \
 VYT_V2ADD( t ) { \
-   struct Vyt_##t##Vec2 ret = { .x = a->x + b->x, .y = a->y + b->y }; \
+   struct Vyt_##t##Vec2 ret = { a->x + b->x, a->y + b->y }; \
    return ret; \
 }
 
@@ -40,7 +42,7 @@ VYT_V2ADDB( F )
 
 #define VYT_V2SUBB( t ) \
 VYT_V2SUB( t ) { \
-   struct Vyt_##t##Vec2 ret = { .x = a->x - b->x, .y = a->y - b->y }; \
+   struct Vyt_##t##Vec2 ret = { a->x - b->x, a->y - b->y }; \
    return ret; \
 }
 
@@ -85,7 +87,7 @@ VytStr vyt_cat( VytStr a, VytStr b ) {
    strcat( vtBuf, b );
    return vtBuf;
 }
-
+ 
 bool vyt_same( VytStr a, VytStr b ) {
    if ( !a ) return !b;
    if ( !b ) return false;

@@ -62,9 +62,13 @@ It contains some preprocessor macros.
 #ifdef __cplusplus
 #define VYT_CBEGIN() extern "C" {
 #define VYT_CEND() }
+#define VYT_NBEGIN() namespace vytc {
+#define VYT_NEND() }
 #else
 #define VYT_CBEGIN()
 #define VYT_CEND()
+#define VYT_NBEGIN()
+#define VYT_NEND()
 #endif
 
 #endif // VYTOOLSDEFSH

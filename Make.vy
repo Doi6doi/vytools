@@ -6,8 +6,8 @@ make {
       $author := "Várnagy Zoltán";
       $ver := "20250724";
       
-      $C := tool( "C", { libMode:true, debug:true, show:true });
-      $Cpp := tool( "Cpp", { libMode:true, debug:true, show:true });
+      $C := tool( "C", { libMode:true, show:true });
+      $Cpp := tool( "Cpp", { libMode:true, show:true });
       $Git := tool( "Git" );
       
       $cdep := "c.dep";
@@ -25,7 +25,7 @@ make {
       $ccs := regexp( $cs, "#(.*)\\.c#", "p_\\1.cpp" );
       $clib := $C.libFile( $name );
       $plib := $Cpp.libFile( $name+"p" );
-      $purge := ["*.o","*.so","*.lib","*.dep",$buildDir] + $ccs;
+      $purge := ["*.o","*.so","*.lib","*.dll","*.dep",$buildDir] + $ccs;
    }
 
    target {
@@ -173,6 +173,18 @@ make {
          saveFile( path( bdDir, "control" ), implode("\n",cnt) );
          // build package
          Deb.build( $buildDir );
+      }
+
+      makeWZip() {
+         Zip := tool("Zip");
+         zf := $name+"_"+$ver+"_win.zip";
+         fs := [$clib,$plib]+$hs+$hps;
+         foreach (l : [$clib,$plib]) {
+            l := changeExt(l,".lib");
+            if ( exists(l))
+               fs += l;
+         }
+         Zip.pack( zf, fs );
       }
 
 
