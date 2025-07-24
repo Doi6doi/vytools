@@ -3,7 +3,9 @@ vultools.o
 libvytools.so
 libvytoolsp.so
 p_*.cpp
-/*.obj
-/*.dll
-/*.o
-/*.dep
+*.obj
+*.dll
+*.o
+*.dep
+build
+*.deb

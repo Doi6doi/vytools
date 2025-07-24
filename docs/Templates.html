@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="part file">
+<div class="part">
+<h1>vytools_tpl.hpp</h1>
+<div class="lbr"></div>
+
+<a href="index.html">VyTools</a> is a <em>C</em> and <em>C++</em> library which
+makes often used tasks easier.
+<div class="lbr"></div>
+
+The <code>vytools_tpl.hpp</code> is for the template classes of the <em>C++</em> part.
+All declarations are in the <code>vyt</code> namespace.
+<div class="lbr"></div>
+
+It contains data class for arrays, vectors, rectangles
+and affine transforms.
+</div>
+<div class="hr"></div><div class="part">
+<h2>Contents</h2><div class="br"></div><div class="part toc">
+<div class="part tocItem">
+<code><a href="#ArrayData">ArrayData</a></code>
+Data class for reference-counted arrays
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#Array">Array</a></code>
+Reference counted array
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#Vec2">Vec2</a></code>
+2-dimensional vector
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#Rect">Rect</a></code>
+Rectangle
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#Trans2">Trans2</a></code>
+2-dimensional affine transformation
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#IVec2">IVec2</a></code>
+2-dimensional vector of <a href="Cpp.html#Int">Int</a>
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#UVec2">UVec2</a></code>
+2-dimensional vector of <a href="Cpp.html#Uint">Uint</a>
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#URect">URect</a></code>
+Rectangle of <a href="Cpp.html#Uint">Uint</a>
+</div>
+<div class="br"></div><div class="part tocItem">
+<code><a href="#FTrans2">FTrans2</a></code>
+2-dimensional affine transformation of <a href="Cpp.html#Float">Float</a>
+</div>
+
+</div>
+
+</div>
+<div class="hr"></div><div class="part">
+<h2>Details</h2>
+</div>
+<div class="hr"></div><div class="part cls" id="ArrayData">
+<pre><code>class ArrayData: public RefData</code></pre>
+<div class="br"></div>Data class for reference-counted arrays<div class="br"></div><div class="parts">
+<div class="part field" id="ArrayData.size">
+<code>size</code> Current size of array
+</div>
+<div class="hr"></div><div class="part field" id="ArrayData.values">
+<code>values</code> The stored values
+</div>
+<div class="hr"></div><div class="part func" id="ArrayData.ArrayData">
+<pre><code>ArrayData()</code></pre>
+<div class="br"></div>Basic constructor
+</div>
+<div class="hr"></div><div class="part func" id="ArrayData.ArrayData">
+<pre><code>ArrayData( const ArrayData<T> & a )</code></pre>
+<div class="br"></div>Copy constructor
+</div>
+<div class="hr"></div><div class="part func" id="ArrayData.ArrayData">
+<pre><code>ArrayData( Uint n )</code></pre>
+<div class="br"></div>Constructor with size<div class="br"></div><div class="part param">
+<code>n</code> Array size
+</div>
+
+</div>
+<div class="hr"></div><div class="part func" id="ArrayData.~ArrayData">
+<pre><code>~ArrayData()</code></pre>
+<div class="br"></div>Destructor
+</div>
+<div class="hr"></div><div class="part enumitem">
+<code>void</code> Throws exception if index is out of bounds <div class="part param">
+<code>i</code> Index
+</div>
+
+</div>
+<div class="hr"></div><div class="part func" id="ArrayData.resize">
+<pre><code>void resize( Uint n )</code></pre>
+<div class="br"></div>Resize array data<div class="br"></div><div class="part param">
+<code>n</code> New size
+</div>
+
+</div>
+<div class="hr"></div><div class="part func" id="ArrayData.set">
+<pre><code>void set( Uint at, const T * ts, Uint n )</code></pre>
+<div class="br"></div>Set values at an index<div class="br"></div><div class="part param">
+<code>at</code> Index
+</div>
+<div class="br"></div><div class="part param">
+<code>ts</code> Pointer to values
+</div>
+<div class="br"></div><div class="part param">
+<code>n</code> Number of values at <code>ts</code>
+</div>
+
+</div>
+<div class="hr"></div><div class="part func" id="ArrayData.*">
+<pre><code>operator T *()</code></pre>
+<div class="br"></div>Pointer to values<div class="br"></div><div class="part return">
+<code>return</code> Pointer
+</div>
+
+</div>
+<div class="hr"></div><div class="part enumitem">
+<code>operator</code> Constant pointer to values <div class="part return">
+<code>return</code> Pointer
+</div>
+
+</div>
+<div class="hr"></div><div class="part enumitem">
+<code>Uint</code> Current size of array <div class="part return">
+<code>return</code> Size
+</div>
+
+</div>
+
+</div>
+</div>
+<div class="hr"></div><div class="part cls" id="Array">
+<pre><code>class Array: public RefCount</code></pre>
+<div class="br"></div>Reference counted array<div class="br"></div><div class="parts">
+<div class="part func" id="Array.vref">
+<pre><code>ArrayData<T> * vref()</code></pre>
+<div class="br"></div>Pointer to the array data<div class="br"></div><div class="part return">
+<code>return</code> Pointer
+</div>
+
+</div>
+<div class="hr"></div><div class="part func" id="Array.T*">
+<pre><code>operator T*()</code></pre>
+<div class="br"></div>Cast to pointer
+</div>
+
+</div>
+</div>
+<div class="hr"></div><div class="part cls" id="Vec2">
+<pre><code>class Vec2</code></pre>
+<div class="br"></div>2-dimensional vector<div class="br"></div><div class="parts">
+<div class="part field" id="Vec2.x">
+<code>x</code> X coordinate
+</div>
+<div class="hr"></div><div class="part field" id="Vec2.y">
+<code>y</code> Y coordinate
+</div>
+<div class="hr"></div><div class="part func" id="Vec2.Vec2">
+<pre><code>Vec2( T x, T y )</code></pre>
+<div class="br"></div>Constructor<div class="br"></div><div class="part param">
+<code>x</code> X coordinate
+</div>
+<div class="br"></div><div class="part param">
+<code>y</code> Y coordinate
+</div>
+
+</div>
+
+</div>
+</div>
+<div class="hr"></div><div class="part cls" id="Rect">
+<pre><code>class Rect</code></pre>
+<div class="br"></div>Rectangle<div class="br"></div><div class="parts">
+<div class="part field" id="Rect.top">
+<code>top</code> Top cooridnate
+</div>
+<div class="hr"></div><div class="part field" id="Rect.left">
+<code>left</code> Left coordinate
+</div>
+<div class="hr"></div><div class="part field" id="Rect.width">
+<code>width</code> Width of rectangle
+</div>
+<div class="hr"></div><div class="part field" id="Rect.height">
+<code>height</code> Height of rectangle
+</div>
+<div class="hr"></div><div class="part func" id="Rect.Rect">
+<pre><code>Rect( T top, T left, T width, T height )</code></pre>
+<div class="br"></div>Constructor<div class="br"></div><div class="part param">
+<code>top</code> Top cooridnate
+</div>
+<div class="br"></div><div class="part param">
+<code>left</code> Left coordinate
+</div>
+<div class="br"></div><div class="part param">
+<code>width</code> Width of rectangle
+</div>
+<div class="br"></div><div class="part param">
+<code>height</code> Height of rectangle
+</div>
+
+</div>
+
+</div>
+</div>
+<div class="hr"></div><div class="part cls" id="Trans2">
+<pre><code>class Trans2</code></pre>
+<div class="br"></div>2-dimensional affine transformation<div class="br"></div><div class="parts">
+<div class="part field" id="Trans2.sx">
+<code>sx</code> X coordinate scale
+</div>
+<div class="hr"></div><div class="part field" id="Trans2.rx">
+<code>rx</code> X coordinate rotate
+</div>
+<div class="hr"></div><div class="part field" id="Trans2.ry">
+<code>ry</code> Y coordinate rotate
+</div>
+<div class="hr"></div><div class="part field" id="Trans2.sy">
+<code>sy</code> Y coordinate scale
+</div>
+<div class="hr"></div><div class="part field" id="Trans2.dx">
+<code>dx</code> X coordinate shift
+</div>
+<div class="hr"></div><div class="part field" id="Trans2.dy">
+<code>dy</code> Y coordinate shift
+</div>
+<div class="hr"></div><div class="part func" id="Trans2.Trans2">
+<pre><code>Trans2( T sx, T rx, T ry, T sy, T dx, T dy )</code></pre>
+<div class="br"></div>Constructor<div class="br"></div><div class="part param">
+<code>sx</code> X coordinate scale
+</div>
+<div class="br"></div><div class="part param">
+<code>rx</code> X coordinate rotate
+</div>
+<div class="br"></div><div class="part param">
+<code>ry</code> Y coordinate rotate
+</div>
+<div class="br"></div><div class="part param">
+<code>sy</code> Y coordinate scale
+</div>
+<div class="br"></div><div class="part param">
+<code>dx</code> X coordinate shift
+</div>
+<div class="br"></div><div class="part param">
+<code>dy</code> Y coordinate shift
+</div>
+
+</div>
+
+</div>
+</div>
+<div class="hr"></div><div class="part type" id="IVec2">
+<pre><code>IVec2</code></pre>
+<div class="br"></div>2-dimensional vector of <a href="Cpp.html#Int">Int</a>
+</div>
+<div class="hr"></div><div class="part type" id="UVec2">
+<pre><code>UVec2</code></pre>
+<div class="br"></div>2-dimensional vector of <a href="Cpp.html#Uint">Uint</a>
+</div>
+<div class="hr"></div><div class="part type" id="URect">
+<pre><code>URect</code></pre>
+<div class="br"></div>Rectangle of <a href="Cpp.html#Uint">Uint</a>
+</div>
+<div class="hr"></div><div class="part type" id="FTrans2">
+<pre><code>FTrans2</code></pre>
+<div class="br"></div>2-dimensional affine transformation of <a href="Cpp.html#Float">Float</a>
+</div>
+
+</div>
+
+</body></html>
